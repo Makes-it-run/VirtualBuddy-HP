@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VirtualBuddy — AI that does the work.</title>
+<meta name="description" content="VirtualBuddy automatisiert Prozesse, verbindet bestehende Systeme und entwickelt KI-Workflows für kleine und mittlere Unternehmen." />
+
+<meta property="og:title" content="VirtualBuddy — AI that does the work." />
+<meta property="og:description" content="Prozessautomatisierung, KI-Integration und E-Commerce-Workflows für kleine und mittlere Unternehmen." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://virtualbuddy.ai/" />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+<link rel="manifest" href="site.webmanifest" />
+<meta name="theme-color" content="#06080D" />
+<meta property="og:image" content="https://virtualbuddy.ai/assets/og-card.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="VirtualBuddy.ai" />
+<meta property="og:locale" content="de_DE" />
+<meta name="twitter:card" content="summary_large_image" />
+<style>
+@font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/manrope-400.woff2') format('woff2')}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/manrope-500.woff2') format('woff2')}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/manrope-600.woff2') format('woff2')}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:700;font-display:swap;src:url('fonts/manrope-700.woff2') format('woff2')}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:800;font-display:swap;src:url('fonts/manrope-800.woff2') format('woff2')}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/jetbrains-mono-400.woff2') format('woff2')}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/jetbrains-mono-500.woff2') format('woff2')}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:#06080D;color:#E7ECF4;font-family:'Manrope',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:#8FD4FF;text-decoration:none}
+a:hover{color:#00D4FF}
+input,textarea,button,select{font-family:inherit}
+input::placeholder,textarea::placeholder{color:rgba(231,236,244,0.3)}
+::selection{background:rgba(79,124,255,0.4)}
+@keyframes vbDrift{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-10px,0)}100%{transform:translate3d(0,0,0)}}
+@keyframes vbBlink{0%,100%{opacity:.25}50%{opacity:1}}
+</style>
+<link rel="canonical" href="https://virtualbuddy.ai/" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"VirtualBuddy.ai","url":"https://virtualbuddy.ai/","logo":"https://virtualbuddy.ai/assets/logo-mark.png","image":"https://virtualbuddy.ai/assets/og-card.png","email":"bk@virtualbuddy.ai","vatID":"DE363885655","description":"VirtualBuddy automatisiert Prozesse, verbindet Systeme und entwickelt KI-Workflows für kleine und mittlere Unternehmen.","parentOrganization":{"@type":"Organization","name":"Großhandelsgesellschaft Nordhausen GbR"},"address":{"@type":"PostalAddress","streetAddress":"Schumannstraße 29","postalCode":"99734","addressLocality":"Nordhausen","addressCountry":"DE"}}
+</script>
+</head>
+<body>
+<div style="position:relative;width:100%;overflow:hidden">
+
+<header id="nav" style="position:fixed;top:0;left:0;right:0;z-index:60;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px clamp(12px,2vw,28px);padding:14px clamp(16px,4vw,48px);background:rgba(7,9,14,0.28);border-bottom:1px solid rgba(255,255,255,0.03);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);transition:background .25s ease,border-color .25s ease,box-shadow .25s ease">
+<a href="#top" style="display:flex;align-items:center;gap:10px;color:#E7ECF4;flex:0 0 auto" style-hover="color:#FFFFFF">
+<img src="assets/logo-mark.png" alt="VirtualBuddy.ai" width="512" height="380" style="height:27px;width:auto;display:block;filter:drop-shadow(0 0 14px rgba(0,170,255,0.38))" />
+<span style="font-size:clamp(15px,3vw,17.5px);font-weight:800;letter-spacing:-0.03em;white-space:nowrap;color:#E7ECF4">Virtual<span style="background:linear-gradient(96deg,#3FE0FF,#B98CFF);-webkit-background-clip:text;background-clip:text;color:transparent">Buddy.ai</span></span>
+</a>
+<nav style="display:flex;align-items:center;gap:clamp(14px,2.4vw,30px);overflow:hidden;flex:0 1 auto;max-width:clamp(0px,calc((100vw - 840px) * 999),420px);opacity:clamp(0,calc((100vw - 845px) * 0.04),1)">
+<a href="#leistungen" style="font-size:14px;font-weight:500;color:rgba(231,236,244,0.66);white-space:nowrap" style-hover="color:#E7ECF4">Leistungen</a>
+<a href="#vorgehen" style="font-size:14px;font-weight:500;color:rgba(231,236,244,0.66);white-space:nowrap" style-hover="color:#E7ECF4">Vorgehen</a>
+<a href="#kontakt" style="font-size:14px;font-weight:500;color:rgba(231,236,244,0.66);white-space:nowrap" style-hover="color:#E7ECF4">Kontakt</a>
+</nav>
+<a href="#kontakt" style="flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;padding:10px clamp(12px,1.6vw,18px);border-radius:999px;background:linear-gradient(100deg,#4F7CFF,#00D4FF);color:#05070B;font-size:clamp(11.5px,2.5vw,13.5px);font-weight:700;letter-spacing:-0.01em;white-space:nowrap;box-shadow:0 10px 30px -12px rgba(0,150,255,.7)" style-hover="filter:brightness(1.08);transform:translateY(-1px)">Automatisierungspotenzial prüfen</a>
+</header>
+
+<main id="top" style="position:relative">
+
+<section style="position:relative;padding:clamp(118px,15vh,172px) clamp(20px,5vw,48px) clamp(56px,8vw,104px)">
+<div style="position:absolute;top:-180px;left:50%;width:min(1100px,120vw);height:620px;transform:translateX(-50%);background:radial-gradient(60% 60% at 50% 40%,rgba(79,124,255,0.22),rgba(0,212,255,0.06) 45%,rgba(0,0,0,0) 72%);filter:blur(10px);pointer-events:none"></div>
+<div style="position:relative;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,430px),1fr));gap:clamp(40px,5vw,72px);align-items:center">
+
+<div>
+<div data-reveal="1" style="display:inline-flex;align-items:center;gap:10px;padding:7px 14px;border:1px solid rgba(255,255,255,0.1);border-radius:999px;background:rgba(255,255,255,0.03);margin-bottom:clamp(22px,3vw,30px)">
+<span style="width:6px;height:6px;border-radius:50%;background:#00D4FF;box-shadow:0 0 10px #00D4FF;animation:vbBlink 2.4s ease-in-out infinite;display:block"></span>
+<span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(231,236,244,0.62)">Automation · KI · Systemintegration</span>
+</div>
+<h1 data-reveal="1" style="margin:0 0 clamp(18px,2.4vw,26px);font-size:clamp(44px,8.4vw,104px);line-height:0.94;font-weight:800;letter-spacing:-0.045em;text-wrap:balance">AI that<br />does the <span style="background:linear-gradient(100deg,#8FB4FF,#00D4FF 70%);-webkit-background-clip:text;background-clip:text;color:transparent">work.</span></h1>
+<p data-reveal="1" style="margin:0 0 clamp(28px,3.5vw,38px);max-width:540px;font-size:clamp(16px,1.5vw,19px);line-height:1.6;color:rgba(231,236,244,0.68);text-wrap:pretty">Wir automatisieren Prozesse, verbinden Systeme und entwickeln intelligente AI-Workflows, die Ihrem Unternehmen Zeit und Kosten sparen.</p>
+<div data-reveal="1" style="display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;margin-bottom:clamp(32px,4vw,44px)">
+<a href="#kontakt" style="display:inline-flex;align-items:center;gap:10px;padding:16px 26px;border-radius:999px;background:linear-gradient(100deg,#4F7CFF,#00D4FF);color:#05070B;font-size:15.5px;font-weight:700;letter-spacing:-0.01em;box-shadow:0 18px 44px -16px rgba(0,150,255,.75)" style-hover="filter:brightness(1.08);transform:translateY(-2px)">Automatisierungspotenzial prüfen<span style="font-size:16px">→</span></a>
+<a href="#leistungen" style="font-size:14.5px;font-weight:600;color:rgba(231,236,244,0.7);border-bottom:1px solid rgba(255,255,255,0.18);padding-bottom:2px" style-hover="color:#00D4FF;border-color:#00D4FF">Leistungen entdecken</a>
+</div>
+<ul data-reveal="1" style="display:flex;flex-wrap:wrap;gap:10px;list-style:none;margin:0;padding:0">
+<li style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11.5px;letter-spacing:0.04em;color:rgba(231,236,244,0.58);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:7px 11px;background:rgba(255,255,255,0.02)">Bestehende Systeme bleiben</li>
+<li style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11.5px;letter-spacing:0.04em;color:rgba(231,236,244,0.58);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:7px 11px;background:rgba(255,255,255,0.02)">Kein Plattform-Lock-in</li>
+<li style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11.5px;letter-spacing:0.04em;color:rgba(231,236,244,0.58);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:7px 11px;background:rgba(255,255,255,0.02)">Betrieb nach dem Go-live</li>
+</ul>
+</div>
+
+<div data-reveal="1" style="position:relative">
+<div style="position:absolute;inset:-14% -8%;background:radial-gradient(50% 50% at 55% 45%,rgba(0,212,255,0.16),rgba(79,124,255,0.08) 45%,rgba(0,0,0,0) 75%);filter:blur(6px);pointer-events:none"></div>
+<div style="position:relative;border:1px solid rgba(255,255,255,0.09);border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,0.055),rgba(255,255,255,0.015));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 50px 120px -50px rgba(0,120,255,0.55);overflow:hidden">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,0.07)">
+<span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(231,236,244,0.56)">workflow · live</span>
+<span style="display:flex;align-items:center;gap:6px">
+<span style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.22);display:block"></span>
+<span style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.22);display:block"></span>
+<span style="width:5px;height:5px;border-radius:50%;background:#00D4FF;box-shadow:0 0 8px #00D4FF;display:block"></span>
+</span>
+</div>
+<div id="canvas-wrap" style="position:relative;width:100%;aspect-ratio:1.15;min-height:262px">
+<canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;display:block"></canvas>
+</div>
+<div id="log" style="display:flex;flex-direction:column;gap:7px;padding:14px 16px 16px;border-top:1px solid rgba(255,255,255,0.07);background:rgba(6,8,13,0.35)">
+<div data-log-row="1" style="display:flex;align-items:baseline;gap:10px;transition:opacity .4s ease">
+<span data-log-tag="1" style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:0.12em;color:rgba(231,236,244,0.5);min-width:52px">INPUT</span>
+<span data-log-text="1" style="font-size:12.5px;color:rgba(231,236,244,0.72);line-height:1.35">Neue E-Mail mit Rechnungsanhang</span>
+</div>
+<div data-log-row="1" style="display:flex;align-items:baseline;gap:10px;transition:opacity .4s ease">
+<span data-log-tag="1" style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:0.12em;color:#00D4FF;min-width:52px">AI</span>
+<span data-log-text="1" style="font-size:12.5px;color:rgba(231,236,244,0.72);line-height:1.35">Betrag, Lieferant und Konto erkannt</span>
+</div>
+<div data-log-row="1" style="display:flex;align-items:baseline;gap:10px;transition:opacity .4s ease">
+<span data-log-tag="1" style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:0.12em;color:rgba(231,236,244,0.5);min-width:52px">AKTION</span>
+<span data-log-text="1" style="font-size:12.5px;color:rgba(231,236,244,0.72);line-height:1.35">Buchung im ERP angelegt</span>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section id="leistungen" style="position:relative;padding:clamp(64px,8vw,112px) clamp(20px,5vw,48px);scroll-margin-top:84px;background:#0B0F17;border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05)">
+<div style="max-width:1200px;margin:0 auto">
+<div data-reveal="1" style="max-width:720px;margin-bottom:clamp(38px,5vw,60px)">
+<span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#00D4FF">01 · Leistungen</span>
+<h2 style="margin:14px 0 0;font-size:clamp(28px,4vw,46px);line-height:1.08;font-weight:700;letter-spacing:-0.035em;text-wrap:balance">Was wir für Sie automatisieren.</h2>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:clamp(14px,1.6vw,20px)">
+
+<article data-reveal="1" style="position:relative;padding:clamp(22px,2.4vw,30px);border:1px solid rgba(255,255,255,0.08);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.012));transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease" style-hover="transform:translateY(-5px);border-color:rgba(120,180,255,0.3);box-shadow:0 30px 60px -35px rgba(0,120,255,0.6)">
+<div style="width:38px;height:38px;border:1px solid rgba(255,255,255,0.1);border-radius:11px;background:rgba(255,255,255,0.035);display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:4px;padding-left:9px;margin-bottom:20px">
+<span style="width:20px;height:2px;border-radius:2px;background:#4F7CFF;display:block"></span>
+<span style="width:14px;height:2px;border-radius:2px;background:rgba(255,255,255,0.32);display:block"></span>
+<span style="width:8px;height:2px;border-radius:2px;background:rgba(255,255,255,0.18);display:block"></span>
+</div>
+<span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(231,236,244,0.56)">Consulting</span>
+<h3 style="margin:12px 0 10px;font-size:19px;line-height:1.25;font-weight:700;letter-spacing:-0.02em">Von der Idee zum funktionierenden Prozess.</h3>
+<p style="margin:0;font-size:14.5px;line-height:1.6;color:rgba(231,236,244,0.66);text-wrap:pretty">Wir analysieren bestehende Abläufe und identifizieren Prozesse, bei denen Automatisierung und künstliche Intelligenz einen messbaren Mehrwert schaffen.</p>
+</article>
+
+<article data-reveal="1" style="position:relative;padding:clamp(22px,2.4vw,30px);border:1px solid rgba(255,255,255,0.08);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.012));transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease" style-hover="transform:translateY(-5px);border-color:rgba(120,180,255,0.3);box-shadow:0 30px 60px -35px rgba(0,120,255,0.6)">
+<div style="position:relative;width:38px;height:38px;border:1px solid rgba(255,255,255,0.1);border-radius:11px;background:rgba(255,255,255,0.035);margin-bottom:20px">
+<span style="position:absolute;left:9px;top:18px;width:20px;height:1px;background:rgba(255,255,255,0.25);display:block"></span>
+<span style="position:absolute;left:7px;top:15px;width:7px;height:7px;border-radius:50%;background:#4F7CFF;display:block"></span>
+<span style="position:absolute;left:24px;top:15px;width:7px;height:7px;border-radius:50%;background:#00D4FF;box-shadow:0 0 10px rgba(0,212,255,.8);display:block"></span>
+</div>
+<span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(231,236,244,0.56)">Prozessautomatisierung</span>
+<h3 style="margin:12px 0 10px;font-size:19px;line-height:1.25;font-weight:700;letter-spacing:-0.02em">Weniger Handarbeit. Mehr Flow.</h3>
+<p style="margin:0;font-size:14.5px;line-height:1.6;color:rgba(231,236,244,0.66);text-wrap:pretty">Wir verbinden Anwendungen, Daten und Workflows und automatisieren wiederkehrende Aufgaben über bestehende Systemgrenzen hinweg.</p>
+</article>
+
+<article data-reveal="1" style="position:relative;padding:clamp(22px,2.4vw,30px);border:1px solid rgba(255,255,255,0.08);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.012));transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease" style-hover="transform:translateY(-5px);border-color:rgba(120,180,255,0.3);box-shadow:0 30px 60px -35px rgba(0,120,255,0.6)">
+<div style="position:relative;width:38px;height:38px;border:1px solid rgba(255,255,255,0.1);border-radius:11px;background:rgba(255,255,255,0.035);display:flex;align-items:center;justify-content:center;margin-bottom:20px">
+<span style="position:absolute;width:22px;height:22px;border:1px solid rgba(255,255,255,0.22);border-radius:50%;display:block"></span>
+<span style="position:absolute;width:12px;height:12px;border:1px solid rgba(0,212,255,0.7);border-radius:50%;display:block"></span>
+<span style="width:4px;height:4px;border-radius:50%;background:#00D4FF;box-shadow:0 0 9px #00D4FF;display:block"></span>
+</div>
+<span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(231,236,244,0.56)">KI-Integration</span>
+<h3 style="margin:12px 0 10px;font-size:19px;line-height:1.25;font-weight:700;letter-spacing:-0.02em">AI dort einsetzen, wo sie Arbeit übernimmt.</h3>
+<p style="margin:0;font-size:14.5px;line-height:1.6;color:rgba(231,236,244,0.66);text-wrap:pretty">Von intelligenten Assistenten bis zu autonomen AI-Workflows integrieren wir künstliche Intelligenz direkt in bestehende Geschäftsprozesse.</p>
+</article>
+
+<article data-reveal="1" style="position:relative;padding:clamp(22px,2.4vw,30px);border:1px solid rgba(255,255,255,0.08);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.012));transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease" style-hover="transform:translateY(-5px);border-color:rgba(120,180,255,0.3);box-shadow:0 30px 60px -35px rgba(0,120,255,0.6)">
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;width:38px;height:38px;border:1px solid rgba(255,255,255,0.1);border-radius:11px;background:rgba(255,255,255,0.035);padding:9px;margin-bottom:20px">
+<span style="background:rgba(255,255,255,0.2);border-radius:1px;display:block"></span>
+<span style="background:rgba(255,255,255,0.2);border-radius:1px;display:block"></span>
+<span style="background:rgba(255,255,255,0.2);border-radius:1px;display:block"></span>
+<span style="background:rgba(255,255,255,0.2);border-radius:1px;display:block"></span>
+<span style="background:linear-gradient(135deg,#4F7CFF,#00D4FF);border-radius:1px;display:block"></span>
+<span style="background:rgba(255,255,255,0.2);border-radius:1px;display:block"></span>
+</div>
+<span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(231,236,244,0.56)">E-Commerce</span>
+<h3 style="margin:12px 0 10px;font-size:19px;line-height:1.25;font-weight:700;letter-spacing:-0.02em">Digitale Geschäftsmodelle automatisieren.</h3>
+<p style="margin:0;font-size:14.5px;line-height:1.6;color:rgba(231,236,244,0.66);text-wrap:pretty">Wir entwickeln und automatisieren E-Commerce-, Shop-, Marketing- und digitale Vertriebslösungen – von der technischen Integration bis zum laufenden Workflow.</p>
+</article>
+
+</div>
+</div>
+</section>
+
+<section id="vorgehen" style="position:relative;padding:clamp(64px,8vw,112px) clamp(20px,5vw,48px);scroll-margin-top:84px">
+<div style="max-width:1200px;margin:0 auto">
+<div data-reveal="1" style="max-width:760px;margin-bottom:clamp(40px,5vw,64px)">
+<span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#00D4FF">02 · Vorgehen</span>
+<h2 style="margin:14px 0 0;font-size:clamp(28px,4vw,46px);line-height:1.08;font-weight:700;letter-spacing:-0.035em;text-wrap:balance">Von manuellen Abläufen zu intelligenten Workflows.</h2>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:clamp(26px,3vw,34px)">
+
+<div data-reveal="1" style="position:relative;border-top:1px solid rgba(255,255,255,0.12);padding-top:24px">
+<span style="position:absolute;top:-4px;left:0;width:8px;height:8px;border-radius:50%;background:#4F7CFF;box-shadow:0 0 14px rgba(79,124,255,.9);display:block"></span>
+<span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;letter-spacing:0.1em;color:rgba(231,236,244,0.56)">01</span>
+<h3 style="margin:10px 0 9px;font-size:18.5px;font-weight:700;letter-spacing:-0.02em">Verstehen</h3>
+<p style="margin:0;font-size:14.5px;line-height:1.6;color:rgba(231,236,244,0.64);text-wrap:pretty">Wir analysieren Prozesse, Systeme und wiederkehrende Aufgaben.</p>
+</div>
+
+<div data-reveal="1" style="position:relative;border-top:1px solid rgba(255,255,255,0.12);padding-top:24px">
+<span style="position:absolute;top:-4px;left:0;width:8px;height:8px;border-radius:50%;background:#4F7CFF;box-shadow:0 0 14px rgba(79,124,255,.9);display:block"></span>
+<span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;letter-spacing:0.1em;color:rgba(231,236,244,0.56)">02</span>
+<h3 style="margin:10px 0 9px;font-size:18.5px;font-weight:700;letter-spacing:-0.02em">Automatisieren</h3>
+<p style="margin:0;font-size:14.5px;line-height:1.6;color:rgba(231,236,244,0.64);text-wrap:pretty">Wir entwickeln den passenden Workflow und verbinden bestehende Systeme.</p>
+</div>
+
+<div data-reveal="1" style="position:relative;border-top:1px solid rgba(255,255,255,0.12);padding-top:24px">
+<span style="position:absolute;top:-4px;left:0;width:8px;height:8px;border-radius:50%;background:#2CB8F5;box-shadow:0 0 14px rgba(0,212,255,.9);display:block"></span>
+<span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;letter-spacing:0.1em;color:rgba(231,236,244,0.56)">03</span>
+<h3 style="margin:10px 0 9px;font-size:18.5px;font-weight:700;letter-spacing:-0.02em">Integrieren</h3>
+<p style="margin:0;font-size:14.5px;line-height:1.6;color:rgba(231,236,244,0.64);text-wrap:pretty">AI, APIs und Automatisierungen werden direkt in bestehende Prozesse eingebunden.</p>
+</div>
+
+<div data-reveal="1" style="position:relative;border-top:1px solid rgba(255,255,255,0.12);padding-top:24px">
+<span style="position:absolute;top:-4px;left:0;width:8px;height:8px;border-radius:50%;background:#00D4FF;box-shadow:0 0 14px rgba(0,212,255,.9);display:block"></span>
+<span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;letter-spacing:0.1em;color:rgba(231,236,244,0.56)">04</span>
+<h3 style="margin:10px 0 9px;font-size:18.5px;font-weight:700;letter-spacing:-0.02em">Optimieren</h3>
+<p style="margin:0;font-size:14.5px;line-height:1.6;color:rgba(231,236,244,0.64);text-wrap:pretty">Wir messen die Ergebnisse und entwickeln die Automatisierung kontinuierlich weiter.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+<section style="position:relative;padding:clamp(64px,8vw,112px) clamp(20px,5vw,48px);background:#0B0F17;border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05)">
+<div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(36px,5vw,72px);align-items:start">
+<div data-reveal="1">
+<span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#00D4FF">03 · Nutzen</span>
+<h2 style="margin:14px 0 18px;font-size:clamp(30px,4.4vw,52px);line-height:1.04;font-weight:800;letter-spacing:-0.04em;text-wrap:balance">Automatisierung muss sich rechnen.</h2>
+<p style="margin:0;max-width:440px;font-size:16px;line-height:1.6;color:rgba(231,236,244,0.64);text-wrap:pretty">Wir bewerten jeden Workflow danach, wie viel Zeit er einspart und wie stabil er im Alltag läuft – nicht danach, wie viel Technik darin steckt.</p>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:clamp(22px,2.6vw,32px)">
+<div data-reveal="1" style="border-top:1px solid rgba(255,255,255,0.12);padding-top:20px">
+<h3 style="margin:0 0 8px;font-size:17px;font-weight:700;letter-spacing:-0.02em">Weniger manuelle Arbeit</h3>
+<p style="margin:0;font-size:14px;line-height:1.6;color:rgba(231,236,244,0.62)">Wiederkehrende Aufgaben automatisieren und Ressourcen freisetzen.</p>
+</div>
+<div data-reveal="1" style="border-top:1px solid rgba(255,255,255,0.12);padding-top:20px">
+<h3 style="margin:0 0 8px;font-size:17px;font-weight:700;letter-spacing:-0.02em">Schnellere Prozesse</h3>
+<p style="margin:0;font-size:14px;line-height:1.6;color:rgba(231,236,244,0.62)">Informationen und Aktionen automatisch zwischen Systemen bewegen.</p>
+</div>
+<div data-reveal="1" style="border-top:1px solid rgba(255,255,255,0.12);padding-top:20px">
+<h3 style="margin:0 0 8px;font-size:17px;font-weight:700;letter-spacing:-0.02em">Weniger Fehler</h3>
+<p style="margin:0;font-size:14px;line-height:1.6;color:rgba(231,236,244,0.62)">Standardisierte Workflows reduzieren manuelle Übertragungsfehler.</p>
+</div>
+<div data-reveal="1" style="border-top:1px solid rgba(255,255,255,0.12);padding-top:20px">
+<h3 style="margin:0 0 8px;font-size:17px;font-weight:700;letter-spacing:-0.02em">Mehr Skalierbarkeit</h3>
+<p style="margin:0;font-size:14px;line-height:1.6;color:rgba(231,236,244,0.62)">Prozesse wachsen, ohne dass der Personalaufwand proportional steigen muss.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section style="position:relative;padding:clamp(80px,10vw,150px) clamp(20px,5vw,48px);overflow:hidden">
+<div style="position:absolute;inset:0;background:radial-gradient(50% 70% at 50% 55%,rgba(79,124,255,0.2),rgba(0,212,255,0.05) 45%,rgba(0,0,0,0) 75%);pointer-events:none"></div>
+<div data-reveal="1" style="position:relative;max-width:900px;margin:0 auto;text-align:center">
+<h2 style="margin:0 0 20px;font-size:clamp(30px,5vw,60px);line-height:1.05;font-weight:800;letter-spacing:-0.04em;text-wrap:balance">Welcher Prozess kostet Sie heute noch unnötig Zeit?</h2>
+<p style="margin:0 auto clamp(30px,4vw,42px);max-width:620px;font-size:clamp(15.5px,1.5vw,18px);line-height:1.6;color:rgba(231,236,244,0.68);text-wrap:pretty">Lassen Sie uns gemeinsam prüfen, wo Automatisierung und AI in Ihrem Unternehmen sinnvoll eingesetzt werden können.</p>
+<a href="#kontakt" style="display:inline-flex;align-items:center;gap:10px;padding:17px 30px;border-radius:999px;background:linear-gradient(100deg,#4F7CFF,#00D4FF);color:#05070B;font-size:16px;font-weight:700;letter-spacing:-0.01em;box-shadow:0 22px 50px -18px rgba(0,150,255,.8)" style-hover="filter:brightness(1.08);transform:translateY(-2px)">Automatisierungspotenzial prüfen<span style="font-size:17px">→</span></a>
+</div>
+</section>
+
+<section id="kontakt" style="position:relative;padding:clamp(64px,8vw,112px) clamp(20px,5vw,48px);scroll-margin-top:84px;background:#0B0F17;border-top:1px solid rgba(255,255,255,0.05)">
+<div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:clamp(34px,4vw,64px);align-items:start">
+
+<div data-reveal="1">
+<span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#00D4FF">Kontakt</span>
+<h2 style="margin:14px 0 18px;font-size:clamp(27px,3.6vw,42px);line-height:1.08;font-weight:700;letter-spacing:-0.035em;text-wrap:balance">Automatisierungspotenzial prüfen.</h2>
+<p style="margin:0 0 28px;max-width:420px;font-size:15.5px;line-height:1.65;color:rgba(231,236,244,0.66);text-wrap:pretty">Beschreiben Sie kurz, welcher Ablauf bei Ihnen heute noch manuell läuft. Wir melden uns mit einer konkreten Einschätzung – ohne Verkaufsgespräch.</p>
+<div style="display:flex;flex-direction:column;gap:6px;padding:18px 20px;border:1px solid rgba(255,255,255,0.08);border-radius:14px;background:rgba(255,255,255,0.025);max-width:420px">
+<span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(231,236,244,0.56)">E-Mail</span>
+<a href="mailto:bk&#64;virtualbuddy.ai?subject=Automatisierungspotenzial%20pr%C3%BCfen" data-mail="1" data-mail-subject="Automatisierungspotenzial prüfen" style="font-size:16px;font-weight:600">bk&#64;virtualbuddy.ai</a>
+</div>
+</div>
+
+<div data-reveal="1" style="border:1px solid rgba(255,255,255,0.09);border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.015));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:clamp(22px,3vw,34px);box-shadow:0 40px 100px -60px rgba(0,120,255,0.6)">
+
+<div id="form-wrap">
+<form id="contact-form" method="POST" action="https://api.web3forms.com/submit" novalidate="novalidate" style="display:grid;gap:16px">
+<input type="hidden" name="access_key" value="98bcfb5d-e5b2-46fb-b5c9-7e1c23bfd9b5" />
+<input type="hidden" name="subject" value="Neue Anfrage über virtualbuddy.ai" />
+<input type="hidden" name="from_name" value="virtualbuddy.ai" />
+<input type="checkbox" name="botcheck" tabindex="-1" aria-hidden="true" style="display:none" />
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:16px">
+<label style="display:block">
+<span style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(231,236,244,0.58);margin-bottom:8px">Name *</span>
+<input name="name" type="text" autocomplete="name" placeholder="Vor- und Nachname" style="width:100%;padding:13px 14px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:rgba(255,255,255,0.04);color:#E7ECF4;font-size:15px;outline:none" style-focus="border-color:#4F7CFF;box-shadow:0 0 0 3px rgba(79,124,255,0.18)" />
+</label>
+<label style="display:block">
+<span style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(231,236,244,0.58);margin-bottom:8px">Unternehmen</span>
+<input name="unternehmen" type="text" autocomplete="organization" placeholder="Firmenname" style="width:100%;padding:13px 14px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:rgba(255,255,255,0.04);color:#E7ECF4;font-size:15px;outline:none" style-focus="border-color:#4F7CFF;box-shadow:0 0 0 3px rgba(79,124,255,0.18)" />
+</label>
+</div>
+<label style="display:block">
+<span style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(231,236,244,0.58);margin-bottom:8px">E-Mail *</span>
+<input name="email" type="email" autocomplete="email" placeholder="name@unternehmen.de" style="width:100%;padding:13px 14px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:rgba(255,255,255,0.04);color:#E7ECF4;font-size:15px;outline:none" style-focus="border-color:#4F7CFF;box-shadow:0 0 0 3px rgba(79,124,255,0.18)" />
+</label>
+<label style="display:block">
+<span style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(231,236,244,0.58);margin-bottom:8px">Welchen Prozess möchten Sie automatisieren?</span>
+<input name="prozess" type="text" placeholder="z. B. Rechnungsverarbeitung, Angebote, Bestellabwicklung" style="width:100%;padding:13px 14px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:rgba(255,255,255,0.04);color:#E7ECF4;font-size:15px;outline:none" style-focus="border-color:#4F7CFF;box-shadow:0 0 0 3px rgba(79,124,255,0.18)" />
+</label>
+<label style="display:block">
+<span style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(231,236,244,0.58);margin-bottom:8px">Nachricht *</span>
+<textarea name="nachricht" rows="4" placeholder="Welche Systeme sind im Einsatz? Was läuft heute manuell?" style="width:100%;padding:13px 14px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:rgba(255,255,255,0.04);color:#E7ECF4;font-size:15px;line-height:1.5;outline:none;resize:vertical" style-focus="border-color:#4F7CFF;box-shadow:0 0 0 3px rgba(79,124,255,0.18)"></textarea>
+</label>
+<div id="form-error" style="display:none">
+<p style="margin:0;padding:11px 13px;border:1px solid rgba(255,138,138,0.35);border-radius:10px;background:rgba(255,80,80,0.08);font-size:13.5px;color:#FFC2C2"></p>
+</div>
+<button type="submit" style="width:100%;padding:16px 22px;border:0;border-radius:999px;background:linear-gradient(100deg,#4F7CFF,#00D4FF);color:#05070B;font-size:15.5px;font-weight:700;letter-spacing:-0.01em;cursor:pointer;box-shadow:0 18px 44px -18px rgba(0,150,255,.8)" style-hover="filter:brightness(1.08)">Automatisierungspotenzial prüfen</button>
+<p style="margin:0;font-size:12.5px;line-height:1.55;color:rgba(231,236,244,0.56)">Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Angaben zur Bearbeitung Ihrer Anfrage zu. Weitere Informationen finden Sie in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+</form>
+</div>
+
+<div id="form-success" style="display:none">
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:16px;padding:clamp(18px,3vw,34px) 0">
+<span style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(0,212,255,0.5);background:rgba(0,212,255,0.1);display:flex;align-items:center;justify-content:center;font-size:20px;color:#00D4FF">✓</span>
+<p style="margin:0;font-size:clamp(19px,2.2vw,24px);line-height:1.35;font-weight:700;letter-spacing:-0.025em">Vielen Dank. Wir melden uns persönlich bei Ihnen.</p>
+<p style="margin:0;font-size:14.5px;line-height:1.6;color:rgba(231,236,244,0.64)">In der Regel innerhalb eines Werktages – direkt mit einer ersten Einschätzung zu Ihrem Prozess.</p>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+</main>
+
+<footer style="padding:clamp(48px,6vw,72px) clamp(20px,5vw,48px) 34px;border-top:1px solid rgba(255,255,255,0.07);background:#06080D">
+<div style="max-width:1200px;margin:0 auto">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:clamp(28px,4vw,48px);padding-bottom:clamp(32px,4vw,48px)">
+<div>
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+<img src="assets/logo-mark.png" alt="VirtualBuddy.ai" width="512" height="380" style="height:23px;width:auto;display:block" />
+<span style="font-size:16.5px;font-weight:800;letter-spacing:-0.03em;white-space:nowrap;color:#E7ECF4">Virtual<span style="background:linear-gradient(96deg,#3FE0FF,#B98CFF);-webkit-background-clip:text;background-clip:text;color:transparent">Buddy.ai</span></span>
+</div>
+<p style="margin:0;font-size:14.5px;color:rgba(231,236,244,0.6)">AI that does the work.</p>
+</div>
+<div>
+<span style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(231,236,244,0.5);margin-bottom:12px">Kontakt</span>
+<a href="mailto:bk&#64;virtualbuddy.ai?subject=Automatisierungspotenzial%20pr%C3%BCfen" data-mail="1" data-mail-subject="Automatisierungspotenzial prüfen" style="font-size:14.5px">bk&#64;virtualbuddy.ai</a>
+</div>
+<div>
+<span style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(231,236,244,0.5);margin-bottom:12px">Rechtliches</span>
+<div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start">
+<a href="impressum.html" style="font-size:14.5px">Impressum</a>
+<a href="datenschutz.html" style="font-size:14.5px">Datenschutz</a>
+</div>
+</div>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-between;padding-top:22px;border-top:1px solid rgba(255,255,255,0.06)">
+<p style="margin:0;font-size:12.5px;color:rgba(231,236,244,0.54)">VirtualBuddy ist der Markenauftritt der Großhandelsgesellschaft Nordhausen GbR.</p>
+<p style="margin:0;font-size:12.5px;color:rgba(231,236,244,0.42)">© 2026 VirtualBuddy</p>
+</div>
+</div>
+</footer>
+
+</div>
+<script src="app.js" defer></script>
+</body>
+</html>
