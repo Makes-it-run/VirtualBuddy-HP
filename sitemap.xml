@@ -225,4 +225,40 @@
     <lastmod>2026-09-17</lastmod>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://virtualbuddy.ai/wissen/cloud-oder-lokal/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://virtualbuddy.ai/wissen/achtzig-prozent-regel/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://virtualbuddy.ai/wissen/fuehrende-quelle-je-datenfeld/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://virtualbuddy.ai/wissen/pilot-zu-betrieb/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://virtualbuddy.ai/wissen/schatten-ki/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://virtualbuddy.ai/wissen/pruefschwelle-dokumente/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>

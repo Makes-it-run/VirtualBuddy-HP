@@ -511,6 +511,7 @@
     var success = document.getElementById("form-success");
     var errBox = document.getElementById("form-error");
     var btn = form.querySelector('button[type="submit"]');
+    var label = btn ? btn.textContent : "";
     var showError = function (msg) {
       if (!errBox) return;
       var p = errBox.querySelector("p") || errBox;
@@ -533,10 +534,54 @@
           if (success) success.style.display = "block";
         })
         .catch(function () {
-          if (btn) { btn.disabled = false; btn.style.opacity = "1"; btn.textContent = "Automatisierungspotenzial prüfen"; }
+          if (btn) { btn.disabled = false; btn.style.opacity = "1"; btn.textContent = label; }
           showError("Senden fehlgeschlagen. Bitte schreiben Sie uns direkt per E-Mail.");
         });
     });
+  }
+
+  /* ---------- Sprungmarken: gleiche Seite weich scrollen, Kopfzeile ausgleichen ---------- */
+  function anchors() {
+    var navEl = document.getElementById("nav");
+    var norm = function (p) { return p.replace(/index\.html$/, "").replace(/\/+$/, ""); };
+    var offset = function () { return (navEl ? navEl.offsetHeight : 64) + 18; };
+    var find = function (hash) {
+      if (!hash || hash === "#") return null;
+      var id = hash.slice(1);
+      try { id = decodeURIComponent(id); } catch (e) {}
+      return document.getElementById(id);
+    };
+    var go = function (el, smooth) {
+      var y = el.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop) - offset();
+      if (y < 0) y = 0;
+      try { window.scrollTo({ top: y, behavior: smooth ? "smooth" : "auto" }); }
+      catch (e) { window.scrollTo(0, y); }
+    };
+    var closeDrawer = function () {
+      var t = document.querySelector("[data-nav-toggle]");
+      if (t && t.getAttribute("aria-expanded") === "true") t.click();
+    };
+    document.addEventListener("click", function (e) {
+      var link = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+      if (!link || link.getAttribute("target") === "_blank") return;
+      var href = link.getAttribute("href") || "";
+      if (href.indexOf("#") === -1) return;
+      var url;
+      try { url = new URL(link.href, location.href); } catch (err) { return; }
+      if (norm(url.pathname) !== norm(location.pathname) || url.search !== location.search) return;
+      var el = find(url.hash);
+      if (!el) return;
+      e.preventDefault();
+      closeDrawer();
+      go(el, true);
+      if (history.replaceState) history.replaceState(null, "", url.hash);
+      var field = el.querySelector('input:not([type="hidden"]):not([type="checkbox"]),select,textarea');
+      if (field) setTimeout(function () { try { field.focus({ preventScroll: true }); } catch (err) {} }, 560);
+    });
+    if (location.hash) {
+      var start = find(location.hash);
+      if (start) setTimeout(function () { go(start, false); }, 80);
+    }
   }
 
   function init() {
@@ -548,6 +593,7 @@
     log();
     heroCanvas();
     contactForm();
+    anchors();
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

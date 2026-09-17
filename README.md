@@ -1,19 +1,20 @@
 # virtualbuddy.ai
 
-Statische Website, 46 Seiten. Keine Build-Tools, keine Abhängigkeiten, kein CDN.
+Statische Website, 53 Seiten. Keine Build-Tools, keine Abhängigkeiten, kein CDN.
 
 ## Inhalt
 - `index.html` — Startseite
 - `workshops/` — Workshops & Zertifizierung (Hub + 5 Unterseiten)
 - `ki/`, `automatisierung/`, `it/`, `ecommerce/`, `marketing/`, `web/` — Content-Hubs mit Unterseiten
-- `ueber-uns/`, `referenzen/`, `wissen/`, `nordhausen/`, `thueringen/`, `kontakt/` — Unternehmen
+- `wissen/` — Fachbeiträge (Übersicht + 6 Artikel)
+- `ueber-uns/`, `referenzen/`, `nordhausen/`, `thueringen/`, `kontakt/` — Unternehmen
 - `certificate/` — Zertifikatsprüfung über Certificate ID (Ziel der QR-Codes, `noindex`)
 - `impressum.html`, `datenschutz.html` — Rechtsseiten
 - `404.html` — Fehlerseite (absolute Pfade, funktioniert unter jeder URL)
 - `app.js` — Hero-Canvas, Hover-/Focus-Styles, Navigation, Scroll-Effekte, Kontaktformular
 - `assets/hub-*.js` — Eyecatcher je Hub (ereignisgesteuert, kein Autoplay)
 - `fonts/` — Manrope + JetBrains Mono (lokal, kein Google-CDN)
-- `sitemap.xml` — 45 URLs · `robots.txt` — Allow all + Sitemap-Verweis
+- `sitemap.xml` — 51 URLs · `robots.txt` — Allow all + Sitemap-Verweis
 - `CNAME` — Custom Domain virtualbuddy.ai
 - `.nojekyll` — verhindert Jekyll-Verarbeitung auf GitHub Pages
 
