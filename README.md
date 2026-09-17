@@ -1,22 +1,40 @@
 # virtualbuddy.ai
 
-Statische One-Page-Website. Keine Build-Tools, keine Abhängigkeiten.
+Statische Website, 46 Seiten. Keine Build-Tools, keine Abhängigkeiten, kein CDN.
 
 ## Inhalt
 - `index.html` — Startseite
+- `workshops/` — Workshops & Zertifizierung (Hub + 5 Unterseiten)
+- `ki/`, `automatisierung/`, `it/`, `ecommerce/`, `marketing/`, `web/` — Content-Hubs mit Unterseiten
+- `ueber-uns/`, `referenzen/`, `wissen/`, `nordhausen/`, `thueringen/`, `kontakt/` — Unternehmen
+- `certificate/` — Zertifikatsprüfung über Certificate ID (Ziel der QR-Codes, `noindex`)
 - `impressum.html`, `datenschutz.html` — Rechtsseiten
-- `app.js` — Hero-Canvas, Scroll-Effekte, Kontaktformular
+- `404.html` — Fehlerseite (absolute Pfade, funktioniert unter jeder URL)
+- `app.js` — Hero-Canvas, Hover-/Focus-Styles, Navigation, Scroll-Effekte, Kontaktformular
+- `assets/hub-*.js` — Eyecatcher je Hub (ereignisgesteuert, kein Autoplay)
 - `fonts/` — Manrope + JetBrains Mono (lokal, kein Google-CDN)
+- `sitemap.xml` — 45 URLs · `robots.txt` — Allow all + Sitemap-Verweis
 - `CNAME` — Custom Domain virtualbuddy.ai
 - `.nojekyll` — verhindert Jekyll-Verarbeitung auf GitHub Pages
 
 ## Deployment (GitHub Pages)
-1. Inhalt dieses Ordners in das Repository `Makes-it-run/VirtualBuddy-HP` legen (Branch `main`, Repo-Wurzel).
+1. Inhalt dieses Ordners in das Repository `Makes-it-run/VirtualBuddy-HP` legen (Branch `main`, Repo-Wurzel). Wichtig: der **Inhalt** von `site/`, nicht der Ordner selbst.
 2. Settings → Pages → Source: `Deploy from a branch` → Branch `main`, Ordner `/ (root)`.
-3. Settings → Pages → Custom domain: `virtualbuddy.ai`, danach `Enforce HTTPS` aktivieren.
+3. Settings → Pages → Custom domain: `virtualbuddy.ai` eintragen, danach `Enforce HTTPS` aktivieren (erst möglich, wenn das Zertifikat ausgestellt ist — kann einige Minuten dauern).
 4. DNS beim Domain-Anbieter:
    - A-Records für `virtualbuddy.ai` → 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153
+   - AAAA-Records (optional, IPv6) → 2606:50c0:8000::153, 2606:50c0:8001::153, 2606:50c0:8002::153, 2606:50c0:8003::153
    - CNAME für `www` → `makes-it-run.github.io`
+5. Nach dem Livegang: `https://virtualbuddy.ai/sitemap.xml` in der Google Search Console einreichen.
+
+## Prüfliste vor dem Push
+- Alle internen Links und Assets aufgelöst (0 Fehler)
+- Jede Seite mit `<link rel="canonical">`, Titel und Description
+- Absolute Pfade nur in `404.html` und `site.webmanifest`, sonst relativ — die Seite läuft damit auch in einem Unterordner
+- Keine externen Requests außer Web3Forms beim Absenden des Kontaktformulars
 
 ## Kontaktformular
-Versand über Web3Forms (`action` im Formular). Der Access Key liegt bewusst im HTML — das ist bei Web3Forms vorgesehen. Empfängeradresse muss im Web3Forms-Konto bestätigt sein. Ohne JavaScript wird das Formular klassisch abgeschickt.
+Versand über Web3Forms (`action` im Formular). Der Access Key liegt bewusst im HTML — das ist bei Web3Forms vorgesehen. Die Empfängeradresse muss im Web3Forms-Konto bestätigt sein. Ohne JavaScript wird das Formular klassisch abgeschickt.
+
+## Zertifikate
+`certificate/` prüft IDs gegen die Liste in `assets/hub-workshops.js`. Neue Zertifikate dort ergänzen. Namen werden nur bei vorliegender Einwilligung angezeigt, sonst bestätigt die Prüfung ausschließlich Kurs, Datum und Gültigkeit.

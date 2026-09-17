@@ -37,7 +37,7 @@
 
   /* ---------- E-Mail-Adresse setzen ---------- */
   function mailLinks() {
-    var addr = ["bk", "virtualbuddy.ai"].join("@");
+    var addr = ["info", "virtualbuddy.ai"].join("@");
     Array.prototype.forEach.call(document.querySelectorAll("[data-mail]"), function (a) {
       var subject = a.getAttribute("data-mail-subject");
       a.setAttribute("href", "mailto:" + addr + (subject ? "?subject=" + encodeURIComponent(subject) : ""));
@@ -59,6 +59,77 @@
     window.addEventListener("scroll", apply, { passive: true });
   }
 
+  /* ---------- Dropdowns + Mobile-Drawer ---------- */
+  function menu() {
+    var fine = !window.matchMedia || window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    var open = null;
+    var show = function (panel, on) {
+      panel.style.opacity = on ? "1" : "0";
+      panel.style.visibility = on ? "visible" : "hidden";
+      panel.style.transform = on ? "translateY(0)" : "translateY(-6px)";
+    };
+    Array.prototype.forEach.call(document.querySelectorAll("[data-menu]"), function (item) {
+      var panel = item.querySelector("[data-menu-panel]");
+      if (!panel) return;
+      var t = 0;
+      var openIt = function () {
+        clearTimeout(t);
+        if (open && open !== panel) show(open, false);
+        open = panel;
+        show(panel, true);
+      };
+      var closeIt = function (delay) {
+        clearTimeout(t);
+        t = setTimeout(function () {
+          show(panel, false);
+          if (open === panel) open = null;
+        }, delay || 0);
+      };
+      if (fine) {
+        item.addEventListener("mouseenter", openIt);
+        item.addEventListener("mouseleave", function () { closeIt(120); });
+      }
+      item.addEventListener("focusin", openIt);
+      item.addEventListener("focusout", function () {
+        setTimeout(function () { if (!item.contains(document.activeElement)) closeIt(0); }, 0);
+      });
+      item.addEventListener("click", function (e) {
+        if (fine) return;
+        var link = e.target.closest ? e.target.closest("a") : null;
+        if (link && panel.contains(link)) return;
+        e.preventDefault();
+        if (open === panel) closeIt(0); else openIt();
+      });
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && open) { show(open, false); open = null; }
+    });
+
+    var btn = document.querySelector("[data-nav-toggle]");
+    var drawer = document.querySelector("[data-nav-drawer]");
+    if (!btn || !drawer) return;
+    var on = false;
+    var bars = btn.querySelectorAll("span");
+    var toggle = function (next) {
+      on = next;
+      drawer.style.display = on ? "block" : "none";
+      document.documentElement.style.overflow = on ? "hidden" : "";
+      btn.setAttribute("aria-expanded", on ? "true" : "false");
+      btn.setAttribute("aria-label", on ? "Menü schließen" : "Menü öffnen");
+      if (bars.length === 3) {
+        bars[0].style.transform = on ? "translateY(6px) rotate(45deg)" : "none";
+        bars[1].style.opacity = on ? "0" : "1";
+        bars[2].style.transform = on ? "translateY(-6px) rotate(-45deg)" : "none";
+        Array.prototype.forEach.call(bars, function (b) { b.style.transition = "transform .22s ease,opacity .18s ease"; });
+      }
+    };
+    btn.addEventListener("click", function () { toggle(!on); });
+    drawer.addEventListener("click", function (e) {
+      if (e.target === drawer) toggle(false);
+    });
+    window.addEventListener("resize", function () { if (on && window.innerWidth >= 1180) toggle(false); });
+  }
+
   /* ---------- Einblenden beim Scrollen ---------- */
   function reveal() {
     if (!("IntersectionObserver" in window)) return;
@@ -70,19 +141,37 @@
       el.style.transform = "translateY(20px)";
       el.style.transition = "opacity .75s cubic-bezier(.2,.7,.2,1), transform .75s cubic-bezier(.2,.7,.2,1)";
     });
+    var clear = function (el) {
+      el.style.opacity = "1";
+      el.style.transform = "none";
+    };
     var obs = new IntersectionObserver(function (entries, o) {
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
         var sib = Array.prototype.slice.call(e.target.parentNode ? e.target.parentNode.children : []);
         var d = Math.min(Math.max(0, sib.indexOf(e.target)), 5) * 80;
-        setTimeout(function () {
-          e.target.style.opacity = "1";
-          e.target.style.transform = "none";
-        }, d);
+        setTimeout(function () { clear(e.target); }, d);
         o.unobserve(e.target);
       });
     }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
     els.forEach(function (el) { obs.observe(el); });
+
+    /* Sichtbarer Bereich sofort zeigen — IntersectionObserver feuert nicht in jeder Umgebung */
+    var firstPass = function () {
+      var h = window.innerHeight || 800;
+      els.forEach(function (el) {
+        if (el.style.opacity !== "0") return;
+        var r = el.getBoundingClientRect();
+        if (r.top < h) { clear(el); obs.unobserve(el); }
+      });
+    };
+    firstPass();
+    requestAnimationFrame(firstPass);
+    setTimeout(function () {
+      els.forEach(function (el) {
+        if (el.style.opacity === "0") { clear(el); obs.unobserve(el); }
+      });
+    }, 1200);
   }
 
   /* ---------- Live-Log unter der Hero-Grafik ---------- */
@@ -454,6 +543,7 @@
     styleStates();
     mailLinks();
     nav();
+    menu();
     reveal();
     log();
     heroCanvas();
