@@ -97,7 +97,7 @@
     Array.prototype.forEach.call(document.querySelectorAll("[data-menu]"), function (item) {
       var panel = item.querySelector("[data-menu-panel]");
       if (!panel) return;
-      var t = 0;
+      var t = 0, pt = 0, viaPointer = false;
       var openIt = function () {
         clearTimeout(t);
         if (open && open !== panel) show(open, false);
@@ -115,7 +115,13 @@
         item.addEventListener("mouseenter", openIt);
         item.addEventListener("mouseleave", function () { closeIt(120); });
       }
-      item.addEventListener("focusin", openIt);
+      item.addEventListener("pointerdown", function (e) {
+        if (e.pointerType === "mouse") return;
+        viaPointer = true;
+        clearTimeout(pt);
+        pt = setTimeout(function () { viaPointer = false; }, 700);
+      });
+      item.addEventListener("focusin", function () { if (viaPointer) return; openIt(); });
       item.addEventListener("focusout", function () {
         setTimeout(function () { if (!item.contains(document.activeElement)) closeIt(0); }, 0);
       });
@@ -130,6 +136,13 @@
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && open) { show(open, false); open = null; }
     });
+    document.addEventListener("pointerdown", function (e) {
+      if (!open) return;
+      var host = e.target && e.target.closest ? e.target.closest("[data-menu]") : null;
+      if (host && host.contains(open)) return;
+      show(open, false);
+      open = null;
+    }, true);
 
     var btn = document.querySelector("[data-nav-toggle]");
     var drawer = document.querySelector("[data-nav-drawer]");

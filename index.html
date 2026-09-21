@@ -45,7 +45,7 @@ input::placeholder,textarea::placeholder{color:rgba(var(--k1),calc(0.3*var(--im)
 ::selection{background:rgba(var(--c3),calc(0.4*var(--am)))}
 @keyframes vbDrift{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-10px,0)}100%{transform:translate3d(0,0,0)}}
 @keyframes vbBlink{0%,100%{opacity:.25}50%{opacity:1}}
-@media(min-width:1180px){[data-nav-row]{display:flex !important}[data-nav-toggle]{display:none !important}}summary::-webkit-details-marker{display:none}summary::marker{content:""}details[open] summary{color:rgb(var(--c2))}
+@media(min-width:1180px){[data-nav-row]{display:flex !important}[data-nav-toggle]{display:none !important}}[data-nav-toggle],[data-theme-toggle]{flex:0 0 auto}@media(max-width:560px){[data-nav-cta]{display:none !important}}@media(max-width:360px){#nav{padding-left:12px !important;padding-right:12px !important}}summary::-webkit-details-marker{display:none}summary::marker{content:""}details[open] summary{color:rgb(var(--c2))}
 </style>
 <script>(function(){try{var t=localStorage.getItem("vb-theme");if(t==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
 <link rel="canonical" href="https://virtualbuddy.ai/" />
