@@ -3,10 +3,10 @@
 (function () {
   "use strict";
 
-  var MINT = "#5EE7C4";
-  var CORAL = "#FF8B73";
-  var INK = "#E8F1F2";
-  var DIM = "rgba(232,241,242,0.58)";
+  var MINT = "rgb(var(--hi1))";
+  var CORAL = "rgb(var(--hi2))";
+  var INK = "rgb(var(--hi3))";
+  var DIM = "rgba(var(--hi3),calc(0.58*var(--im)))";
 
   function map() {
     var root = document.getElementById("it-map");
@@ -37,7 +37,7 @@
       var v = VIEWS[view];
 
       for (var i = 0; i < nodes.length; i++) {
-        nodes[i].style.borderColor = on ? "rgba(94,231,196,0.45)" : "rgba(255,139,115,0.4)";
+        nodes[i].style.borderColor = on ? "rgba(var(--hi1),calc(0.45*var(--am)))" : "rgba(var(--hi2),calc(0.4*var(--am)))";
         var led = nodes[i].querySelector("[data-sysled]");
         if (led) {
           led.style.background = on ? MINT : CORAL;
@@ -57,10 +57,10 @@
       }
       if (hub) {
         hub.style.borderStyle = on ? "solid" : "dashed";
-        hub.style.borderColor = on ? "rgba(94,231,196,0.65)" : "rgba(232,241,242,0.3)";
+        hub.style.borderColor = on ? "rgba(var(--hi1),0.65)" : "rgba(var(--hi3),calc(0.3*var(--im)))";
         hub.style.background = on
-          ? "linear-gradient(180deg,rgba(94,231,196,0.14),rgba(9,15,17,0.97))"
-          : "linear-gradient(180deg,rgba(232,241,242,0.04),rgba(9,15,17,0.97))";
+          ? "linear-gradient(180deg,rgba(var(--hi1),calc(0.14*var(--am))),rgba(var(--hi4),0.97))"
+          : "linear-gradient(180deg,rgba(var(--hi3),0.04),rgba(var(--hi4),0.97))";
         var htag = hub.querySelector("[data-hubtag]");
         if (htag) {
           htag.textContent = on ? "aktiv" : "fehlt";
@@ -74,9 +74,9 @@
       }
       for (var b = 0; b < btns.length; b++) {
         var sel = btns[b].getAttribute("data-view") === view;
-        btns[b].style.background = sel ? "rgba(94,231,196,0.18)" : "transparent";
+        btns[b].style.background = sel ? "rgba(var(--hi1),calc(0.18*var(--am)))" : "transparent";
         btns[b].style.color = sel ? INK : DIM;
-        btns[b].style.borderColor = sel ? "rgba(94,231,196,0.55)" : "rgba(94,231,196,0.18)";
+        btns[b].style.borderColor = sel ? "rgba(var(--hi1),0.55)" : "rgba(var(--hi1),calc(0.18*var(--am)))";
         btns[b].setAttribute("aria-pressed", sel ? "true" : "false");
       }
     }

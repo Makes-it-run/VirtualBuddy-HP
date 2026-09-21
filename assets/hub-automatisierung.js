@@ -3,9 +3,9 @@
 (function () {
   "use strict";
 
-  var INK = "#F5F0E4";
-  var AMBER = "#FFB238";
-  var LIME = "#C8FF5E";
+  var INK = "rgb(var(--ha1))";
+  var AMBER = "rgb(var(--ha2))";
+  var LIME = "rgb(var(--ha3))";
 
   /* Modellrechnung Eingangsrechnung, Minuten je Vorgang und Liegezeit in Stunden */
   var PHASES = [
@@ -50,12 +50,12 @@
         var row = rows[i];
         var badge = row.querySelector("[data-badge]");
         var time = row.querySelector("[data-time]");
-        row.style.borderColor = on ? "rgba(200,255,94,0.28)" : "rgba(255,178,56,0.16)";
-        row.style.background = on ? "rgba(200,255,94,0.055)" : "rgba(255,178,56,0.03)";
+        row.style.borderColor = on ? "rgba(var(--ha3),calc(0.28*var(--am)))" : "rgba(var(--ha2),calc(0.16*var(--am)))";
+        row.style.background = on ? "rgba(var(--ha3),calc(0.055*var(--am)))" : "rgba(var(--ha2),calc(0.03*var(--am)))";
         if (badge) {
           badge.textContent = on ? "automatisch" : "Handarbeit";
           badge.style.color = on ? LIME : AMBER;
-          badge.style.borderColor = on ? "rgba(200,255,94,0.4)" : "rgba(255,178,56,0.4)";
+          badge.style.borderColor = on ? "rgba(var(--ha3),calc(0.4*var(--am)))" : "rgba(var(--ha2),calc(0.4*var(--am)))";
         }
         if (time) {
           time.textContent = de(on ? p.aut : p.man) + " min";

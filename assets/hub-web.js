@@ -4,10 +4,10 @@
 (function () {
   "use strict";
 
-  var INK = "#E8F5EC", FILL = "#24DB6A", ON = "#04140A", SURF2 = "#13211A",
-      ULT = "#24DB6A", DEEP = "#5BFF9B", VERM = "rgba(232,245,236,0.45)",
-      SOFT = "rgba(232,245,236,0.68)", RULE = "rgba(232,245,236,0.16)";
-  var PAPER = ON, SHEET = "#0F1A14";
+  var INK = "rgb(var(--hw1))", FILL = "rgb(var(--hw2))", ON = "rgb(var(--hw3))", SURF2 = "rgb(var(--hw4))",
+      ULT = "rgb(var(--hw2))", DEEP = "rgb(var(--hw5))", VERM = "rgba(var(--hw1),calc(0.45*var(--im)))",
+      SOFT = "rgba(var(--hw1),calc(0.68*var(--im)))", RULE = "rgba(var(--hw1),0.16)";
+  var PAPER = ON, SHEET = "rgb(var(--hw6))";
   var MONO = "font-family:'JetBrains Mono',ui-monospace,monospace";
 
   function all(root, sel) { return Array.prototype.slice.call(root.querySelectorAll(sel)); }
@@ -83,7 +83,7 @@
     function serpHtml(d) {
       return '<div style="display:grid;gap:18px">' + d.serp.map(function (r, i) {
         return '<div style="position:relative;padding:' + (r.mine ? "13px 15px" : "0") + ';'
-          + (r.mine ? "background:rgba(36,219,106,0.09);border-left:2px solid " + ULT + ";" : "")
+          + (r.mine ? "background:rgba(var(--hw2),calc(0.09*var(--am)));border-left:2px solid " + ULT + ";" : "")
           + '">'
           + '<span style="display:block;' + MONO + ';font-size:11.5px;color:' + SOFT + ';margin-bottom:4px">' + esc(r.u) + '</span>'
           + '<span style="display:block;font-size:17px;line-height:1.3;font-weight:600;color:' + DEEP + ';margin-bottom:5px">' + esc(r.t) + '</span>'
@@ -100,10 +100,10 @@
         + '<span style="' + MONO + ';font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:' + SOFT + '">Quellen</span>'
         + d.ai.cites.map(function (c, i) {
           var mine = c.indexOf("ihre-firma") === 0;
-          return '<span style="' + MONO + ';font-size:11.5px;padding:5px 9px;border:1px solid ' + (mine ? ULT : RULE) + ';background:' + (mine ? "rgba(36,219,106,0.12)" : "transparent") + ';color:' + (mine ? DEEP : SOFT) + '">' + (i + 1) + ' · ' + esc(c) + '</span>';
+          return '<span style="' + MONO + ';font-size:11.5px;padding:5px 9px;border:1px solid ' + (mine ? ULT : RULE) + ';background:' + (mine ? "rgba(var(--hw2),calc(0.12*var(--am)))" : "transparent") + ';color:' + (mine ? DEEP : SOFT) + '">' + (i + 1) + ' · ' + esc(c) + '</span>';
         }).join('')
         + '</div>'
-        + '<div style="display:flex;align-items:center;gap:9px;padding:11px 13px;background:' + (d.ai.mine ? "rgba(36,219,106,0.12)" : "rgba(232,245,236,0.05)") + ';border-left:2px solid ' + (d.ai.mine ? ULT : VERM) + '">'
+        + '<div style="display:flex;align-items:center;gap:9px;padding:11px 13px;background:' + (d.ai.mine ? "rgba(var(--hw2),calc(0.12*var(--am)))" : "rgba(var(--hw1),0.05)") + ';border-left:2px solid ' + (d.ai.mine ? ULT : VERM) + '">'
         + '<span style="' + MONO + ';font-size:12.5px;font-weight:500;color:' + (d.ai.mine ? DEEP : VERM) + '">' + (d.ai.mine ? "Sie werden zitiert" : "Sie werden nicht zitiert") + '</span></div>'
         + '</div>';
     }
@@ -146,7 +146,7 @@
       if (lcp) lcp.textContent = t.toFixed(1).replace(".", ",") + " s";
       if (bar) {
         bar.style.width = pct + "%";
-        bar.style.background = t <= 1.6 ? FILL : t <= 3 ? "rgba(232,245,236,0.52)" : "rgba(232,245,236,0.26)";
+        bar.style.background = t <= 1.6 ? FILL : t <= 3 ? "rgba(var(--hw1),calc(0.52*var(--im)))" : "rgba(var(--hw1),0.26)";
       }
       if (bounce) bounce.textContent = bo + " %";
       if (verdict) {
@@ -154,7 +154,7 @@
         verdict.textContent = ok ? "gut" : mid ? "grenzwertig" : "zu langsam";
         verdict.style.background = ok ? FILL : "transparent";
         verdict.style.color = ok ? ON : INK;
-        verdict.style.border = ok ? "1px solid " + FILL : "1px solid rgba(232,245,236,0.3)";
+        verdict.style.border = ok ? "1px solid " + FILL : "1px solid rgba(var(--hw1),calc(0.3*var(--im)))";
       }
       /* Vier Momentaufnahmen: was ist zum Zeitpunkt X gezeichnet? */
       [0.5, 1, 2, 4].forEach(function (at, i) {
@@ -165,7 +165,7 @@
         blocks.forEach(function (b, j) {
           var need = (j + 1) / blocks.length;
           var on = share >= need;
-          b.style.background = on ? (j === 0 ? INK : j === 1 ? FILL : "rgba(232,245,236,0.34)") : "rgba(232,245,236,0.07)";
+          b.style.background = on ? (j === 0 ? INK : j === 1 ? FILL : "rgba(var(--hw1),calc(0.34*var(--im)))") : "rgba(var(--hw1),0.07)";
           b.style.opacity = on ? "1" : "1";
         });
         var lab = f.querySelector("[data-flab]");
@@ -288,13 +288,13 @@
     var ratio = root.querySelector("[data-tyratio]"), verd = root.querySelector("[data-tyverdict]"),
         meta = root.querySelector("[data-tymeta]"), cap = root.querySelector("[data-tycap]");
     var D = {
-      grau: { size: 13, color: "#5E6B63", width: "100%", lh: 1.45, ratio: "3,2:1", ok: false,
+      grau: { size: 13, color: "rgb(var(--hw7))", width: "100%", lh: 1.45, ratio: "3,2:1", ok: false,
         meta: "13 px · gedämpftes Grau · ca. 118 Zeichen je Zeile",
         cap: "Der häufigste Fehler in gestalteten Themes: graue Schrift, weil es ruhiger aussieht. 3,2:1 ist für Fließtext unzulässig und für Menschen über 50 schlicht nicht lesbar." },
-      mittel: { size: 15, color: "#7A8A80", width: "84%", lh: 1.6, ratio: "4,9:1", ok: true,
+      mittel: { size: 15, color: "rgb(var(--hw8))", width: "84%", lh: 1.6, ratio: "4,9:1", ok: true,
         meta: "15 px · Mittelgrau · ca. 92 Zeichen je Zeile",
         cap: "Knapp über der Grenze von 4,5:1 — zulässig, aber ohne Reserve. Bei Sonnenlicht auf dem Handy ist das die Stelle, an der Besucher aufgeben." },
-      tinte: { size: 17, color: "#E8F5EC", width: "62%", lh: 1.7, ratio: "15,6:1", ok: true,
+      tinte: { size: 17, color: "rgb(var(--hw1))", width: "62%", lh: 1.7, ratio: "15,6:1", ok: true,
         meta: "17 px · volle Deckung · ca. 68 Zeichen je Zeile",
         cap: "17 px, 15,6:1 Kontrast und begrenzte Zeilenlänge. Das ist keine Geschmacksfrage, sondern der Zustand, in dem Text tatsächlich gelesen wird." }
     };
@@ -310,7 +310,7 @@
         verd.textContent = d.ok ? "bestanden" : "durchgefallen";
         verd.style.background = d.ok ? FILL : "transparent";
         verd.style.color = d.ok ? ON : INK;
-        verd.style.border = d.ok ? "1px solid " + FILL : "1px solid rgba(232,245,236,0.3)";
+        verd.style.border = d.ok ? "1px solid " + FILL : "1px solid rgba(var(--hw1),calc(0.3*var(--im)))";
       }
       if (meta) meta.textContent = d.meta;
       if (cap) cap.textContent = d.cap;
@@ -350,14 +350,14 @@
       detail.innerHTML = '<span style="display:block;' + MONO + ';font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:' + VERM + ';margin-bottom:8px">' + d.t + ' · ' + d.ms + '</span>'
         + '<span style="display:block;font-size:19px;font-weight:700;letter-spacing:-0.02em;color:' + INK + ';margin-bottom:9px">' + d.h + '</span>'
         + '<p style="margin:0 0 12px;font-size:14.8px;line-height:1.68;color:' + SOFT + '">' + d.d + '</p>'
-        + '<span style="display:block;padding:10px 12px;background:rgba(232,245,236,0.05);border-left:2px solid ' + VERM + ';font-size:13.5px;line-height:1.55;color:' + INK + '">' + d.risk + '</span>';
+        + '<span style="display:block;padding:10px 12px;background:rgba(var(--hw1),0.05);border-left:2px solid ' + VERM + ';font-size:13.5px;line-height:1.55;color:' + INK + '">' + d.risk + '</span>';
       hops.forEach(function (h) {
         var sel = h.getAttribute("data-hop") === cur;
         h.style.background = sel ? FILL : SHEET;
         h.style.borderColor = sel ? FILL : RULE;
         h.setAttribute("aria-pressed", sel ? "true" : "false");
         all(h, "[data-hoptxt]").forEach(function (t) { t.style.color = sel ? ON : INK; });
-        all(h, "[data-hopms]").forEach(function (t) { t.style.color = sel ? "rgba(4,20,10,0.72)" : SOFT; });
+        all(h, "[data-hopms]").forEach(function (t) { t.style.color = sel ? "rgba(var(--hw3),0.72)" : SOFT; });
       });
     }
     hops.forEach(function (h) { h.addEventListener("click", function () { cur = this.getAttribute("data-hop"); paint(); }); });
@@ -455,7 +455,7 @@
     function paint() {
       var d = D[cur];
       out.innerHTML = '<div style="display:grid;gap:14px">'
-        + '<div style="padding:14px 16px;background:' + (d.mine ? "rgba(36,219,106,0.09)" : "rgba(232,245,236,0.05)") + ';border-left:2px solid ' + (d.mine ? ULT : VERM) + '">'
+        + '<div style="padding:14px 16px;background:' + (d.mine ? "rgba(var(--hw2),calc(0.09*var(--am)))" : "rgba(var(--hw1),0.05)") + ';border-left:2px solid ' + (d.mine ? ULT : VERM) + '">'
         + '<span style="display:block;' + MONO + ';font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:' + SOFT + ';margin-bottom:7px">Antwort der KI</span>'
         + '<span style="display:block;font-size:15.5px;line-height:1.7;color:' + INK + '">' + esc(d.answer) + '</span></div>'
         + '<ul style="margin:0;padding:0;list-style:none;display:grid;gap:7px">'

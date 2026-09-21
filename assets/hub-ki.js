@@ -5,7 +5,7 @@
 
   var RM = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   var MONO = "'JetBrains Mono',ui-monospace,monospace";
-  var INK = "#F2EDFF";
+  var INK = "rgb(var(--hk1))";
 
   /* Sichtbarkeit: eigene, gedrosselte Pruefung. IntersectionObserver und
      Scroll-Events feuern nicht in jeder Umgebung, ein Timer immer. */
@@ -24,11 +24,11 @@
   /* ---------------- A · Agent-Lauf ---------------- */
 
   var TONE = {
-    "in":    { c: "rgba(242,237,255,0.62)", l: "Eingang" },
-    think:   { c: "#C9AEFF", l: "Überlegt" },
-    tool:    { c: "#A97BFF", l: "Werkzeug" },
-    act:     { c: "#3FE0FF", l: "Aktion" },
-    esc:     { c: "#FFC46B", l: "Eskalation" }
+    "in":    { c: "rgba(var(--hk1),calc(0.62*var(--im)))", l: "Eingang" },
+    think:   { c: "rgb(var(--hk2))", l: "Überlegt" },
+    tool:    { c: "rgb(var(--hk3))", l: "Werkzeug" },
+    act:     { c: "rgb(var(--hk4))", l: "Aktion" },
+    esc:     { c: "rgb(var(--hk5))", l: "Eskalation" }
   };
 
   var SCENES = [
@@ -82,9 +82,9 @@
     function paintChips() {
       for (var i = 0; i < chips.length; i++) {
         var on = i === idx;
-        chips[i].style.background = on ? "rgba(169,123,255,0.22)" : "rgba(185,140,255,0.05)";
-        chips[i].style.borderColor = on ? "rgba(169,123,255,0.6)" : "rgba(185,140,255,0.16)";
-        chips[i].style.color = on ? INK : "rgba(242,237,255,0.64)";
+        chips[i].style.background = on ? "rgba(var(--hk3),calc(0.22*var(--am)))" : "rgba(var(--hk6),calc(0.05*var(--am)))";
+        chips[i].style.borderColor = on ? "rgba(var(--hk3),0.6)" : "rgba(var(--hk6),calc(0.16*var(--am)))";
+        chips[i].style.color = on ? INK : "rgba(var(--hk1),calc(0.64*var(--im)))";
         chips[i].setAttribute("aria-pressed", on ? "true" : "false");
       }
     }
@@ -93,7 +93,7 @@
       var tone = TONE[s.k] || TONE["in"];
       var row = document.createElement("div");
       row.setAttribute("style",
-        "display:grid;grid-template-columns:76px 1fr;gap:10px;padding:9px 0;border-top:1px solid rgba(185,140,255,0.09)" +
+        "display:grid;grid-template-columns:76px 1fr;gap:10px;padding:9px 0;border-top:1px solid rgba(var(--hk6),calc(0.09*var(--am)))" +
         (animate ? ";animation:kiRow .36s ease both" : ""));
       var lab = document.createElement("span");
       lab.setAttribute("style", "font-family:" + MONO + ";font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;color:" + tone.c + ";padding-top:4px");
@@ -104,7 +104,7 @@
       t.setAttribute("style", "font-family:" + MONO + ";font-size:12.5px;line-height:1.4;color:" + INK + ";overflow-wrap:anywhere");
       t.textContent = s.t;
       var d = document.createElement("div");
-      d.setAttribute("style", "margin-top:3px;font-size:12.5px;line-height:1.45;color:rgba(242,237,255,0.62);overflow-wrap:anywhere");
+      d.setAttribute("style", "margin-top:3px;font-size:12.5px;line-height:1.45;color:rgba(var(--hk1),calc(0.62*var(--im)));overflow-wrap:anywhere");
       d.textContent = "→ " + s.d;
       body.appendChild(t); body.appendChild(d);
       row.appendChild(lab); row.appendChild(body);
@@ -124,15 +124,15 @@
     function finish() {
       var r = SCENES[idx].result;
       var warn = r.tone === "warn";
-      var col = warn ? "#FFC46B" : "#3FE0FF";
+      var col = warn ? "rgb(var(--hk5))" : "rgb(var(--hk4))";
       setStatus(warn ? "eskaliert" : "fertig", col, false);
       result.innerHTML = "";
       result.style.display = "block";
       var box = document.createElement("div");
       box.setAttribute("style",
         "display:flex;align-items:flex-start;gap:11px;padding:13px 15px;border-radius:12px;animation:kiPop .4s ease both;" +
-        "background:" + (warn ? "rgba(255,196,107,0.10)" : "rgba(63,224,255,0.09)") + ";" +
-        "border:1px solid " + (warn ? "rgba(255,196,107,0.34)" : "rgba(63,224,255,0.3)"));
+        "background:" + (warn ? "rgba(var(--hk5),calc(0.10*var(--am)))" : "rgba(var(--hk4),calc(0.09*var(--am)))") + ";" +
+        "border:1px solid " + (warn ? "rgba(var(--hk5),calc(0.34*var(--am)))" : "rgba(var(--hk4),calc(0.3*var(--am)))"));
       var mark = document.createElement("span");
       mark.setAttribute("style", "flex:0 0 auto;font-family:" + MONO + ";font-size:13px;line-height:1.3;color:" + col);
       mark.textContent = warn ? "!" : "✓";
@@ -141,7 +141,7 @@
       h.setAttribute("style", "font-size:13.8px;font-weight:700;letter-spacing:-0.01em;color:" + INK);
       h.textContent = r.head;
       var s = document.createElement("div");
-      s.setAttribute("style", "margin-top:3px;font-size:12.8px;line-height:1.5;color:rgba(242,237,255,0.68)");
+      s.setAttribute("style", "margin-top:3px;font-size:12.8px;line-height:1.5;color:rgba(var(--hk1),calc(0.68*var(--im)))");
       s.textContent = r.sub;
       txt.appendChild(h); txt.appendChild(s);
       box.appendChild(mark); box.appendChild(txt);
@@ -172,7 +172,7 @@
         finish();
         return;
       }
-      setStatus("arbeitet", "#C9AEFF", true);
+      setStatus("arbeitet", "rgb(var(--hk2))", true);
       timer = setTimeout(tick, 260);
     }
 
@@ -227,15 +227,15 @@
       var m = MODES[mode];
       house.style.right = m.right;
       packet.style.animation = m.anim;
-      packet.style.background = "#C9AEFF";
-      packet.style.boxShadow = "0 0 14px #C9AEFF";
+      packet.style.background = "rgb(var(--hk2))";
+      packet.style.boxShadow = "0 0 14px rgb(var(--hk2))";
       if (note) note.textContent = m.note;
       if (caption) caption.textContent = m.cap;
       for (var i = 0; i < btns.length; i++) {
         var on = btns[i].getAttribute("data-mode") === mode;
-        btns[i].style.background = on ? "rgba(169,123,255,0.22)" : "transparent";
-        btns[i].style.color = on ? INK : "rgba(242,237,255,0.62)";
-        btns[i].style.borderColor = on ? "rgba(169,123,255,0.6)" : "rgba(185,140,255,0.16)";
+        btns[i].style.background = on ? "rgba(var(--hk3),calc(0.22*var(--am)))" : "transparent";
+        btns[i].style.color = on ? INK : "rgba(var(--hk1),calc(0.62*var(--im)))";
+        btns[i].style.borderColor = on ? "rgba(var(--hk3),0.6)" : "rgba(var(--hk6),calc(0.16*var(--am)))";
         btns[i].setAttribute("aria-pressed", on ? "true" : "false");
       }
     }

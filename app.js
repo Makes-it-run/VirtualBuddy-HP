@@ -45,15 +45,41 @@
     });
   }
 
+  /* ---------- Hell/Dunkel ---------- */
+  function theme() {
+    var root = document.documentElement;
+    var meta = document.querySelector('meta[name="theme-color"]');
+    var btns = Array.prototype.slice.call(document.querySelectorAll("[data-theme-toggle]"));
+    var read = function () { return root.getAttribute("data-theme") === "light" ? "light" : "dark"; };
+    var apply = function (mode, save) {
+      if (mode === "light") root.setAttribute("data-theme", "light");
+      else root.removeAttribute("data-theme");
+      if (save) { try { localStorage.setItem("vb-theme", mode); } catch (e) {} }
+      btns.forEach(function (b) {
+        b.setAttribute("aria-pressed", mode === "light" ? "true" : "false");
+        b.setAttribute("aria-label", mode === "light" ? "Dunkles Design aktivieren" : "Helles Design aktivieren");
+      });
+      if (meta) {
+        var bg = getComputedStyle(document.body).backgroundColor;
+        if (bg) meta.setAttribute("content", bg);
+      }
+      window.dispatchEvent(new CustomEvent("vb:theme", { detail: mode }));
+    };
+    btns.forEach(function (b) {
+      b.addEventListener("click", function () { apply(read() === "light" ? "dark" : "light", true); });
+    });
+    apply(read(), false);
+  }
+
   /* ---------- Navigation ---------- */
   function nav() {
     var el = document.getElementById("nav");
     if (!el) return;
     var apply = function () {
       var on = (window.scrollY || window.pageYOffset || 0) > 18;
-      el.style.background = on ? "rgba(7,9,14,0.8)" : "rgba(7,9,14,0.28)";
-      el.style.borderBottomColor = on ? "rgba(255,255,255,0.09)" : "rgba(255,255,255,0.03)";
-      el.style.boxShadow = on ? "0 20px 50px -34px rgba(0,0,0,0.95)" : "none";
+      el.style.background = on ? "rgba(var(--nav),0.86)" : "rgba(var(--nav),0.28)";
+      el.style.borderBottomColor = on ? "rgba(var(--w),0.09)" : "rgba(var(--w),0.03)";
+      el.style.boxShadow = on ? "0 20px 50px -34px rgba(var(--sh),calc(.95*var(--shm)))" : "none";
     };
     apply();
     window.addEventListener("scroll", apply, { passive: true });
@@ -200,7 +226,7 @@
           setTimeout(function () {
             if (tag) {
               tag.textContent = item[0];
-              tag.style.color = item[0] === "AI" ? "#00D4FF" : (item[0] === "OUTPUT" ? "#8FB4FF" : "rgba(231,236,244,0.5)");
+              tag.style.color = item[0] === "AI" ? "rgb(var(--ac))" : (item[0] === "OUTPUT" ? "rgb(var(--ac2))" : "rgba(var(--ink),calc(.5*var(--im)))");
             }
             if (txt) txt.textContent = item[1];
             row.style.opacity = "1";
@@ -219,6 +245,19 @@
     var ctx = cv.getContext("2d");
     if (!ctx) return;
     var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var C = {};
+    function palette() {
+      var cs = getComputedStyle(document.documentElement);
+      var v = function (n, fb) { return (cs.getPropertyValue(n) || "").trim() || fb; };
+      C.ac = v("--ac", "0,212,255");
+      C.ac2 = v("--ac2", "79,124,255");
+      C.ink = v("--ink", "231,236,244");
+      C.w = v("--w", "255,255,255");
+      C.bg = v("--bg", "6,8,13");
+      C.light = document.documentElement.getAttribute("data-theme") === "light";
+    }
+    function rgba(t, a) { return "rgba(" + t + "," + a + ")"; }
+    palette();
     var s = {
       w: 0, h: 0, dpr: Math.min(window.devicePixelRatio || 1, 2),
       nodes: [], edges: [], chains: [], pulses: [],
@@ -324,12 +363,12 @@
       g.setTransform(s.dpr, 0, 0, s.dpr, 0, 0);
       var hx = (s.compact ? 0.5 : 0.36) * s.w, hy = 0.5 * s.h;
       var rad = g.createRadialGradient(hx, hy, 0, hx, hy, Math.max(s.w, s.h) * 0.6);
-      rad.addColorStop(0, "rgba(79,124,255,0.2)");
-      rad.addColorStop(0.45, "rgba(0,212,255,0.05)");
+      rad.addColorStop(0, rgba(C.ac2, C.light ? 0.16 : 0.2));
+      rad.addColorStop(0.45, rgba(C.ac, 0.05));
       rad.addColorStop(1, "rgba(0,0,0,0)");
       g.fillStyle = rad;
       g.fillRect(0, 0, s.w, s.h);
-      g.fillStyle = "rgba(255,255,255,0.05)";
+      g.fillStyle = rgba(C.w, 0.06);
       for (var x = 13; x < s.w; x += 26) {
         for (var y = 13; y < s.h; y += 26) g.fillRect(x, y, 1, 1);
       }
@@ -343,7 +382,7 @@
       layout();
 
       ctx.lineWidth = 1;
-      ctx.strokeStyle = "rgba(255,255,255,0.1)";
+      ctx.strokeStyle = rgba(C.w, 0.12);
       s.edges.forEach(function (e) {
         var c = curve(s.nodes[e[0]].outP, s.nodes[e[1]].inP);
         ctx.beginPath();
@@ -368,7 +407,7 @@
           if (tn) tn.flash = 1;
         }
         var c = curve(s.nodes[chain[seg]].outP, s.nodes[chain[seg + 1]].inP);
-        var col = pi % 2 ? "0,212,255" : "120,160,255";
+        var col = pi % 2 ? C.ac : C.ac2;
         for (var k = 6; k >= 0; k--) {
           var tt = Math.max(0, f - k * 0.035);
           var pt = bez(c, tt);
@@ -382,7 +421,7 @@
         ctx.save();
         ctx.shadowColor = "rgba(" + col + ",0.95)";
         ctx.shadowBlur = 14;
-        ctx.fillStyle = "rgba(235,248,255,0.98)";
+        ctx.fillStyle = rgba(C.w, 0.98);
         ctx.beginPath();
         ctx.arc(head[0], head[1], 2.3, 0, Math.PI * 2);
         ctx.fill();
@@ -393,48 +432,48 @@
       s.nodes.forEach(function (n) {
         if (n.kind === "hub") {
           var g = ctx.createRadialGradient(n.cx, n.cy, 0, n.cx, n.cy, n.r * 1.6);
-          g.addColorStop(0, "rgba(79,124,255,0.32)");
+          g.addColorStop(0, rgba(C.ac2, 0.3));
           g.addColorStop(1, "rgba(0,0,0,0)");
           ctx.fillStyle = g;
           ctx.beginPath();
           ctx.arc(n.cx, n.cy, n.r * 1.6, 0, Math.PI * 2);
           ctx.fill();
-          ctx.fillStyle = "rgba(10,14,22,0.88)";
+          ctx.fillStyle = rgba(C.bg, 0.9);
           ctx.beginPath();
           ctx.arc(n.cx, n.cy, n.r, 0, Math.PI * 2);
           ctx.fill();
           ctx.lineWidth = 1.2;
-          ctx.strokeStyle = "rgba(143,180,255,0.65)";
+          ctx.strokeStyle = rgba(C.ac2, 0.6);
           ctx.stroke();
           var a0 = s.t * 0.6;
           ctx.lineWidth = 1.4;
-          ctx.strokeStyle = "rgba(0,212,255,0.75)";
+          ctx.strokeStyle = rgba(C.ac, 0.75);
           [0, Math.PI].forEach(function (off) {
             ctx.beginPath();
             ctx.arc(n.cx, n.cy, n.r + 7, a0 + off, a0 + off + 0.8);
             ctx.stroke();
           });
-          ctx.fillStyle = "rgba(240,247,255,0.96)";
+          ctx.fillStyle = rgba(C.ink, 0.98);
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
           ctx.font = '700 ' + (s.compact ? 13 : 15) + 'px Manrope, system-ui, sans-serif';
           ctx.fillText("AI", n.cx, n.cy + 0.5);
           ctx.font = '500 ' + (s.compact ? 8.5 : 9.5) + 'px "JetBrains Mono", ui-monospace, monospace';
-          ctx.fillStyle = "rgba(231,236,244,0.55)";
+          ctx.fillStyle = rgba(C.ink, 0.6);
           ctx.fillText("ANALYSE", n.cx, n.cy + (s.compact ? 12 : 15));
           return;
         }
         var r = n.rect, flash = n.flash;
         rr(r.x, r.y, r.w, r.h, 8);
-        ctx.fillStyle = "rgba(255,255,255," + (0.045 + flash * 0.07).toFixed(3) + ")";
+        ctx.fillStyle = rgba(C.w, (0.05 + flash * 0.07).toFixed(3));
         ctx.fill();
         ctx.lineWidth = 1;
-        ctx.strokeStyle = flash > 0.02 ? "rgba(0,212,255," + (0.2 + flash * 0.7).toFixed(3) + ")" : "rgba(255,255,255,0.14)";
+        ctx.strokeStyle = flash > 0.02 ? rgba(C.ac, (0.2 + flash * 0.7).toFixed(3)) : rgba(C.w, 0.16);
         ctx.stroke();
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.font = '500 ' + fs + 'px "JetBrains Mono", ui-monospace, monospace';
-        ctx.fillStyle = "rgba(231,236,244," + (0.72 + flash * 0.28).toFixed(3) + ")";
+        ctx.fillStyle = rgba(C.ink, (0.75 + flash * 0.25).toFixed(3));
         ctx.fillText(n.label, r.x + r.w / 2, r.y + r.h / 2 + 0.5);
         n.flash = Math.max(0, flash - 0.022);
       });
@@ -477,6 +516,7 @@
     }
 
     window.addEventListener("resize", function () { resize(); kick(); });
+    window.addEventListener("vb:theme", function () { palette(); paintBg(); paintFrame(); });
     if ("ResizeObserver" in window) new ResizeObserver(function () { resize(); kick(); }).observe(wrap);
     if (!reduced) {
       wrap.addEventListener("pointermove", function (e) {
@@ -587,6 +627,7 @@
   function init() {
     styleStates();
     mailLinks();
+    theme();
     nav();
     menu();
     reveal();

@@ -18,6 +18,22 @@ Statische Website, 53 Seiten. Keine Build-Tools, keine Abhängigkeiten, kein CDN
 - `CNAME` — Custom Domain virtualbuddy.ai
 - `.nojekyll` — verhindert Jekyll-Verarbeitung auf GitHub Pages
 
+## Hell / Dunkel
+Jede Seite trägt zwei Paletten im `<style>`-Block: `:root{…}` (dunkel, Standard) und
+`:root[data-theme="light"]{…}` (hell). Alle Farben im Markup verweisen auf diese Variablen,
+z. B. `color:rgba(var(--k1),calc(0.72*var(--im)))`. Die Namen bedeuten:
+
+- `--k*` Schriftfarben, `--b*` Flächen, `--c*` Akzente, `--h**` Farben der Hub-Skripte
+- `--w` Weiß-Schleier (hell: dunkler Schleier), `--sh` Schattenfarbe
+- `--im` Faktor für Textdeckkraft, `--at` für Akzenttext, `--am` für Akzentflächen, `--shm` für Schatten
+- Aliase: `--ink`, `--ac`, `--ac2`, `--bg`, `--nav` — davon lebt `app.js` (Kopfzeile, Hero-Canvas, Live-Log)
+
+Der Umschalter sitzt in der Kopfzeile (`[data-theme-toggle]`), die Wahl liegt in
+`localStorage["vb-theme"]`. Ohne gespeicherte Wahl startet jede Seite dunkel; ein kleines
+Skript im `<head>` setzt das Attribut vor dem ersten Bildaufbau, deshalb blitzt nichts auf.
+Neue Farbwerte bitte immer als Variable anlegen, nicht als festen Hex-Wert — sonst bleibt die
+Stelle im hellen Design dunkel. Umrechnung und Nachziehen der hellen Palette: `tools/theme.js`.
+
 ## Deployment (GitHub Pages)
 1. Inhalt dieses Ordners in das Repository `Makes-it-run/VirtualBuddy-HP` legen (Branch `main`, Repo-Wurzel). Wichtig: der **Inhalt** von `site/`, nicht der Ordner selbst.
 2. Settings → Pages → Source: `Deploy from a branch` → Branch `main`, Ordner `/ (root)`.

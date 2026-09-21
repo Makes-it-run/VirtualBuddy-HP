@@ -3,11 +3,11 @@
 (function () {
   "use strict";
 
-  var INK = "#15130E";
-  var PAPER = "#F4EFE3";
-  var CREAM = "#F2EFE6";
-  var YEL = "#E8F24A";
-  var DIM = "rgba(242,239,230,0.6)";
+  var INK = "rgb(var(--hm1))";
+  var PAPER = "rgb(var(--hm2))";
+  var CREAM = "rgb(var(--hm3))";
+  var YEL = "rgb(var(--hm4))";
+  var DIM = "rgba(var(--hm3),calc(0.6*var(--im)))";
 
   /* ---------------- Nurture-Strecke ---------------- */
 
@@ -49,15 +49,15 @@
       out.innerHTML =
         '<span style="display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 14px;margin-bottom:14px">'
         + '<span style="font-family:\'JetBrains Mono\',ui-monospace,monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:4px 9px;background:' + INK + ';color:' + YEL + '">' + s.kind + '</span>'
-        + '<span style="font-family:\'JetBrains Mono\',ui-monospace,monospace;font-size:11px;letter-spacing:0.1em;color:rgba(21,19,14,0.72)">' + s.meta + '</span></span>'
+        + '<span style="font-family:\'JetBrains Mono\',ui-monospace,monospace;font-size:11px;letter-spacing:0.1em;color:rgba(var(--hm1),0.72)">' + s.meta + '</span></span>'
         + '<h3 style="margin:0 0 12px;font-size:clamp(20px,2.4vw,27px);line-height:1.15;font-weight:800;letter-spacing:-0.03em;color:' + INK + '">' + s.title + '</h3>'
-        + '<p style="margin:0;font-size:15.5px;line-height:1.7;color:rgba(21,19,14,0.82);text-wrap:pretty">' + s.body + '</p>';
+        + '<p style="margin:0;font-size:15.5px;line-height:1.7;color:rgba(var(--hm1),0.82);text-wrap:pretty">' + s.body + '</p>';
       if (pos) pos.textContent = (cur + 1) + " / " + STEPS.length;
       for (var i = 0; i < rail.length; i++) {
         var sel = i === cur;
         rail[i].style.background = sel ? YEL : "transparent";
         rail[i].style.color = sel ? INK : CREAM;
-        rail[i].style.borderColor = sel ? YEL : "rgba(242,239,230,0.22)";
+        rail[i].style.borderColor = sel ? YEL : "rgba(var(--hm3),0.22)";
         rail[i].setAttribute("aria-pressed", sel ? "true" : "false");
       }
       if (prev) prev.disabled = cur === 0;
@@ -115,9 +115,9 @@
       var html = "";
       for (var i = 0; i < s.rows.length; i++) {
         var r = s.rows[i];
-        html += '<div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 18px;align-items:baseline;padding:14px 0;border-bottom:1px solid rgba(21,19,14,0.14)">'
+        html += '<div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 18px;align-items:baseline;padding:14px 0;border-bottom:1px solid rgba(var(--hm1),0.14)">'
           + '<span style="min-width:0"><span style="display:block;font-size:16px;font-weight:700;letter-spacing:-0.02em;color:' + INK + ';margin-bottom:5px">' + r[0] + '</span>'
-          + '<span style="display:block;font-size:13.5px;line-height:1.55;color:rgba(21,19,14,0.7);text-wrap:pretty">' + r[2] + '</span></span>'
+          + '<span style="display:block;font-size:13.5px;line-height:1.55;color:rgba(var(--hm1),0.7);text-wrap:pretty">' + r[2] + '</span></span>'
           + '<span style="font-family:\'JetBrains Mono\',ui-monospace,monospace;font-size:15px;white-space:nowrap;color:' + INK
           + (good ? ';background:' + YEL + ';padding:3px 8px' : '') + '">' + r[1] + '</span></div>';
       }
@@ -127,7 +127,7 @@
         var sel = btns[b].getAttribute("data-mset") === cur;
         btns[b].style.background = sel ? YEL : "transparent";
         btns[b].style.color = sel ? INK : DIM;
-        btns[b].style.borderColor = sel ? YEL : "rgba(242,239,230,0.22)";
+        btns[b].style.borderColor = sel ? YEL : "rgba(var(--hm3),0.22)";
         btns[b].setAttribute("aria-pressed", sel ? "true" : "false");
       }
     }

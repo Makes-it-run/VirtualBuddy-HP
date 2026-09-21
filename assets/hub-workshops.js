@@ -5,13 +5,13 @@
   "use strict";
 
   var MONO = "'JetBrains Mono',ui-monospace,monospace";
-  var INK = "#F4F0E6";
-  var MUTED = "rgba(244,240,230,0.66)";
-  var DIM = "rgba(244,240,230,0.48)";
-  var AMBER = "#E3A33B";
-  var STEEL = "#8FA3B8";
-  var GREEN = "#67C98B";
-  var HAIR = "rgba(227,163,59,0.22)";
+  var INK = "rgb(var(--hs1))";
+  var MUTED = "rgba(var(--hs1),calc(0.66*var(--im)))";
+  var DIM = "rgba(var(--hs1),calc(0.48*var(--im)))";
+  var AMBER = "rgb(var(--hs2))";
+  var STEEL = "rgb(var(--hs3))";
+  var GREEN = "rgb(var(--hs4))";
+  var HAIR = "rgba(var(--hs2),calc(0.22*var(--am)))";
 
   function el(tag, style, text) {
     var n = document.createElement(tag);
@@ -26,7 +26,7 @@
     return el("div", "height:1px;margin:" + (margin || "0") + ";background-image:linear-gradient(90deg," + HAIR + " 0 4px,transparent 4px 9px);background-size:9px 1px");
   }
   function btn(text, on) {
-    var b = el("button", "font-family:" + MONO + ";font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;padding:9px 15px;border:1px solid " + (on ? AMBER : HAIR) + ";border-radius:2px;background:" + (on ? "rgba(227,163,59,0.14)" : "transparent") + ";color:" + (on ? AMBER : MUTED) + ";cursor:pointer;transition:border-color .2s ease,color .2s ease,background .2s ease", text);
+    var b = el("button", "font-family:" + MONO + ";font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;padding:9px 15px;border:1px solid " + (on ? AMBER : HAIR) + ";border-radius:2px;background:" + (on ? "rgba(var(--hs2),calc(0.14*var(--am)))" : "transparent") + ";color:" + (on ? AMBER : MUTED) + ";cursor:pointer;transition:border-color .2s ease,color .2s ease,background .2s ease", text);
     b.type = "button";
     return b;
   }
@@ -61,7 +61,7 @@
           var on = state[i] === p[1];
           p[0].style.borderColor = on ? AMBER : HAIR;
           p[0].style.color = on ? AMBER : MUTED;
-          p[0].style.background = on ? "rgba(227,163,59,0.14)" : "transparent";
+          p[0].style.background = on ? "rgba(var(--hs2),calc(0.14*var(--am)))" : "transparent";
         });
       };
       bj.addEventListener("click", function () { state[i] = true; paint(); verdict(); });
@@ -72,7 +72,7 @@
     });
     box.appendChild(list);
 
-    var out = el("div", "margin-top:20px;padding:18px;border:1px solid " + HAIR + ";border-left:2px solid " + AMBER + ";border-radius:2px;background:rgba(227,163,59,0.05)");
+    var out = el("div", "margin-top:20px;padding:18px;border:1px solid " + HAIR + ";border-left:2px solid " + AMBER + ";border-radius:2px;background:rgba(var(--hs2),calc(0.05*var(--am)))");
     var outHead = el("p", "margin:0 0 7px;font-size:15px;font-weight:700;letter-spacing:-0.01em;color:" + INK, "Beantworten Sie die drei Fragen.");
     var outBody = el("p", "margin:0;font-size:14px;line-height:1.6;color:" + MUTED + ";text-wrap:pretty", "Die Einschätzung entsteht direkt im Browser — wir sehen Ihre Antworten nicht.");
     out.appendChild(outHead); out.appendChild(outBody);
@@ -138,10 +138,10 @@
     box.appendChild(qEl);
     var opts = el("div", "display:grid;gap:8px");
     box.appendChild(opts);
-    var fb = el("div", "display:none;margin-top:16px;padding:15px 16px;border:1px solid " + HAIR + ";border-radius:2px;background:rgba(244,240,230,0.03)");
+    var fb = el("div", "display:none;margin-top:16px;padding:15px 16px;border:1px solid " + HAIR + ";border-radius:2px;background:rgba(var(--hs1),0.03)");
     var fbHead = el("p", "margin:0 0 6px;font-family:" + MONO + ";font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:" + GREEN);
     var fbBody = el("p", "margin:0;font-size:14px;line-height:1.6;color:" + MUTED + ";text-wrap:pretty");
-    var next = el("button", "margin-top:14px;font-family:" + MONO + ";font-size:11.5px;letter-spacing:0.08em;text-transform:uppercase;padding:10px 16px;border:1px solid " + AMBER + ";border-radius:2px;background:rgba(227,163,59,0.12);color:" + AMBER + ";cursor:pointer");
+    var next = el("button", "margin-top:14px;font-family:" + MONO + ";font-size:11.5px;letter-spacing:0.08em;text-transform:uppercase;padding:10px 16px;border:1px solid " + AMBER + ";border-radius:2px;background:rgba(var(--hs2),calc(0.12*var(--am)));color:" + AMBER + ";cursor:pointer");
     next.type = "button";
     fb.appendChild(fbHead); fb.appendChild(fbBody); fb.appendChild(next);
     box.appendChild(fb);
@@ -158,7 +158,7 @@
         b.type = "button";
         b.appendChild(el("span", "font-family:" + MONO + ";font-size:11px;color:" + DIM, String.fromCharCode(65 + i)));
         b.appendChild(el("span", "min-width:0", text));
-        b.addEventListener("mouseenter", function () { if (!locked) b.style.borderColor = "rgba(227,163,59,0.5)"; });
+        b.addEventListener("mouseenter", function () { if (!locked) b.style.borderColor = "rgba(var(--hs2),calc(0.5*var(--am)))"; });
         b.addEventListener("mouseleave", function () { if (!locked) b.style.borderColor = HAIR; });
         b.addEventListener("click", function () {
           if (locked) return;
@@ -167,11 +167,11 @@
           if (right) score++;
           Array.prototype.forEach.call(opts.children, function (c, ci) {
             c.style.cursor = "default";
-            if (ci === item.ok) { c.style.borderColor = GREEN; c.style.background = "rgba(103,201,139,0.08)"; }
-            else if (ci === i) { c.style.borderColor = "rgba(226,122,90,0.7)"; c.style.background = "rgba(226,122,90,0.07)"; }
+            if (ci === item.ok) { c.style.borderColor = GREEN; c.style.background = "rgba(var(--hs4),calc(0.08*var(--am)))"; }
+            else if (ci === i) { c.style.borderColor = "rgba(var(--hs5),0.7)"; c.style.background = "rgba(var(--hs5),calc(0.07*var(--am)))"; }
             else { c.style.opacity = "0.5"; }
           });
-          fbHead.style.color = right ? GREEN : "#E27A5A";
+          fbHead.style.color = right ? GREEN : "rgb(var(--hs5))";
           fbHead.textContent = right ? "Richtig" : "Nicht ganz";
           fbBody.textContent = item.why;
           next.textContent = idx + 1 < Q.length ? "Nächste Frage →" : "Ergebnis ansehen →";
@@ -186,7 +186,7 @@
       count.textContent = "Auszug beendet";
       opts.textContent = "";
       fb.style.display = "none";
-      var done = el("div", "padding:16px;border:1px solid " + HAIR + ";border-left:2px solid " + AMBER + ";border-radius:2px;background:rgba(227,163,59,0.05)");
+      var done = el("div", "padding:16px;border:1px solid " + HAIR + ";border-left:2px solid " + AMBER + ";border-radius:2px;background:rgba(var(--hs2),calc(0.05*var(--am)))");
       done.appendChild(el("p", "margin:0 0 6px;font-size:14.5px;font-weight:700;color:" + INK, "Im Workshop sind es zwölf Fragen."));
       done.appendChild(el("p", "margin:0;font-size:14px;line-height:1.6;color:" + MUTED + ";text-wrap:pretty", "Bestanden ab neun richtigen Antworten. Das Ergebnis steht auf dem persönlichen Zertifikat als bestandene Lernkontrolle — und im Unternehmensnachweis als dokumentierte Maßnahme."));
       opts.appendChild(done);
@@ -251,23 +251,23 @@
         var on = i === active;
         b.style.borderColor = on ? AMBER : HAIR;
         b.style.color = on ? AMBER : MUTED;
-        b.style.background = on ? "rgba(227,163,59,0.14)" : "transparent";
+        b.style.background = on ? "rgba(var(--hs2),calc(0.14*var(--am)))" : "transparent";
       });
       body.textContent = "";
 
-      var left = el("div", "min-width:0;padding:clamp(16px,2vw,20px);border:1px solid rgba(244,240,230,0.1);border-radius:2px;background:rgba(244,240,230,0.02)");
+      var left = el("div", "min-width:0;padding:clamp(16px,2vw,20px);border:1px solid rgba(var(--hs1),0.1);border-radius:2px;background:rgba(var(--hs1),0.02)");
       left.appendChild(label("Vorher · ein Satz"));
       left.appendChild(perf("12px 0 14px"));
-      left.appendChild(el("p", "margin:0 0 12px;font-family:" + MONO + ";font-size:13.5px;line-height:1.6;color:rgba(244,240,230,0.55)", c.weak));
+      left.appendChild(el("p", "margin:0 0 12px;font-family:" + MONO + ";font-size:13.5px;line-height:1.6;color:rgba(var(--hs1),calc(0.55*var(--im)))", c.weak));
       left.appendChild(el("p", "margin:0;font-size:13.5px;line-height:1.55;color:" + DIM + ";text-wrap:pretty", c.weakNote));
       body.appendChild(left);
 
-      var right = el("div", "min-width:0;padding:clamp(16px,2vw,20px);border:1px solid " + HAIR + ";border-top:2px solid " + AMBER + ";border-radius:2px;background:rgba(227,163,59,0.04)");
+      var right = el("div", "min-width:0;padding:clamp(16px,2vw,20px);border:1px solid " + HAIR + ";border-top:2px solid " + AMBER + ";border-radius:2px;background:rgba(var(--hs2),calc(0.04*var(--am)))");
       right.appendChild(label("Nachher · fünf Bausteine", AMBER));
       right.appendChild(perf("12px 0 4px"));
       var grid = el("div", "display:grid;gap:0");
       c.parts.forEach(function (p) {
-        var row = el("div", "display:grid;grid-template-columns:clamp(68px,9vw,88px) minmax(0,1fr);gap:12px;align-items:baseline;padding:11px 0;border-bottom:1px solid rgba(227,163,59,0.12)");
+        var row = el("div", "display:grid;grid-template-columns:clamp(68px,9vw,88px) minmax(0,1fr);gap:12px;align-items:baseline;padding:11px 0;border-bottom:1px solid rgba(var(--hs2),calc(0.12*var(--am)))");
         row.appendChild(el("span", "font-family:" + MONO + ";font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:" + AMBER, p[0]));
         row.appendChild(el("span", "min-width:0;font-size:14px;line-height:1.55;color:" + INK, p[1]));
         grid.appendChild(row);
@@ -330,7 +330,7 @@
         var on = (i === 0) === (mode === "workflow");
         b.style.borderColor = on ? AMBER : HAIR;
         b.style.color = on ? AMBER : MUTED;
-        b.style.background = on ? "rgba(227,163,59,0.14)" : "transparent";
+        b.style.background = on ? "rgba(var(--hs2),calc(0.14*var(--am)))" : "transparent";
       });
       body.textContent = "";
       body.appendChild(el("p", "margin:0 0 4px;font-size:17px;font-weight:700;letter-spacing:-0.02em;color:" + INK, m.head));
@@ -339,19 +339,19 @@
       m.nodes.forEach(function (n, i) {
         var wrap = el("div", "display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:stretch");
         var rail = el("div", "position:relative;width:20px;display:flex;flex-direction:column;align-items:center");
-        var dotColor = mode === "agent" && n[0] === "Werkzeug" ? STEEL : (n[0] === "Grenze" ? "#E27A5A" : AMBER);
+        var dotColor = mode === "agent" && n[0] === "Werkzeug" ? STEEL : (n[0] === "Grenze" ? "rgb(var(--hs5))" : AMBER);
         rail.appendChild(el("span", "width:7px;height:7px;margin-top:15px;background:" + dotColor + ";display:block;flex:0 0 auto"));
-        if (i < m.nodes.length - 1) rail.appendChild(el("span", "flex:1 1 auto;width:1px;background:" + (mode === "agent" ? "rgba(143,163,168,0.4)" : HAIR) + ";display:block"));
+        if (i < m.nodes.length - 1) rail.appendChild(el("span", "flex:1 1 auto;width:1px;background:" + (mode === "agent" ? "rgba(var(--hs6),calc(0.4*var(--am)))" : HAIR) + ";display:block"));
         wrap.appendChild(rail);
         var card = el("div", "min-width:0;padding:12px 0 16px");
-        card.appendChild(el("span", "display:block;font-family:" + MONO + ";font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:" + (n[0] === "Grenze" ? "#E27A5A" : DIM) + ";margin-bottom:4px", n[0]));
+        card.appendChild(el("span", "display:block;font-family:" + MONO + ";font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:" + (n[0] === "Grenze" ? "rgb(var(--hs5))" : DIM) + ";margin-bottom:4px", n[0]));
         card.appendChild(el("span", "display:block;font-size:14.5px;line-height:1.5;color:" + INK + ";overflow-wrap:anywhere", n[1]));
         wrap.appendChild(card);
         chain.appendChild(wrap);
       });
       body.appendChild(chain);
       if (mode === "agent") {
-        var loop = el("div", "margin:2px 0 0 0;padding:10px 14px;border:1px dashed rgba(143,163,168,0.45);border-radius:2px;display:inline-block");
+        var loop = el("div", "margin:2px 0 0 0;padding:10px 14px;border:1px dashed rgba(var(--hs6),calc(0.45*var(--am)));border-radius:2px;display:inline-block");
         loop.appendChild(el("span", "font-family:" + MONO + ";font-size:11px;letter-spacing:0.08em;color:" + STEEL, "↻ Schleife: überlegen → Werkzeug → prüfen, bis Ziel oder Grenze erreicht"));
         body.appendChild(loop);
       }
@@ -405,7 +405,7 @@
       var tr = el("tr", "cursor:pointer;transition:background .2s ease");
       var cells = [r.c, r.n, r.a, r.s, r.r];
       cells.forEach(function (v, ci) {
-        var td = el("td", "text-align:" + (ci === 0 ? "left" : "right") + ";padding:12px 10px 12px 0;border-bottom:1px solid rgba(244,240,230,0.07);color:" + (ci === 0 ? INK : MUTED) + ";white-space:nowrap" + (ci === 0 ? ";font-weight:600" : ""));
+        var td = el("td", "text-align:" + (ci === 0 ? "left" : "right") + ";padding:12px 10px 12px 0;border-bottom:1px solid rgba(var(--hs1),0.07);color:" + (ci === 0 ? INK : MUTED) + ";white-space:nowrap" + (ci === 0 ? ";font-weight:600" : ""));
         if (ci === 4) {
           td.textContent = "";
           td.appendChild(el("span", "font-family:" + MONO + ";font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;padding:4px 8px;border:1px solid " + TONE[v] + ";color:" + TONE[v] + ";border-radius:2px;white-space:nowrap", v));
@@ -413,7 +413,7 @@
         tr.appendChild(td);
       });
       tr.addEventListener("click", function () { sel = sel === i ? -1 : i; paint(); });
-      tr.addEventListener("mouseenter", function () { if (sel !== i) tr.style.background = "rgba(227,163,59,0.05)"; });
+      tr.addEventListener("mouseenter", function () { if (sel !== i) tr.style.background = "rgba(var(--hs2),calc(0.05*var(--am)))"; });
       tr.addEventListener("mouseleave", function () { if (sel !== i) tr.style.background = "transparent"; });
       tbody.appendChild(tr);
     });
@@ -421,11 +421,11 @@
 
     /* Matrix */
     var mWrap = el("div", "min-width:0;max-width:580px");
-    var plot = el("div", "position:relative;aspect-ratio:5/4;border-left:1px solid " + HAIR + ";border-bottom:1px solid " + HAIR + ";background-image:linear-gradient(rgba(244,240,230,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(244,240,230,0.05) 1px,transparent 1px);background-size:25% 25%");
+    var plot = el("div", "position:relative;aspect-ratio:5/4;border-left:1px solid " + HAIR + ";border-bottom:1px solid " + HAIR + ";background-image:linear-gradient(rgba(var(--hs1),0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--hs1),0.05) 1px,transparent 1px);background-size:25% 25%");
     ROWS.forEach(function (r, i) {
       var flip = r.x > 0.5;
       var dot = el("div", "position:absolute;left:" + (r.x * 100) + "%;bottom:" + (r.y * 100) + "%;transform:translate(" + (flip ? "-100%" : "0") + ",50%);display:flex;align-items:center;gap:7px;cursor:pointer;margin-left:" + (flip ? "6px" : "-5px"));
-      var mark = el("span", "width:11px;height:11px;border-radius:50%;background:" + TONE[r.r] + ";box-shadow:0 0 0 4px rgba(227,163,59,0.08);display:block;flex:0 0 auto;transition:box-shadow .2s ease,transform .2s ease");
+      var mark = el("span", "width:11px;height:11px;border-radius:50%;background:" + TONE[r.r] + ";box-shadow:0 0 0 4px rgba(var(--hs2),calc(0.08*var(--am)));display:block;flex:0 0 auto;transition:box-shadow .2s ease,transform .2s ease");
       var cap = el("span", "font-family:" + MONO + ";font-size:10.5px;letter-spacing:0.02em;color:" + MUTED + ";white-space:nowrap;transition:color .2s ease", r.c);
       if (flip) { dot.appendChild(cap); dot.appendChild(mark); } else { dot.appendChild(mark); dot.appendChild(cap); }
       dot.addEventListener("click", function () { sel = sel === i ? -1 : i; paint(); });
@@ -446,7 +446,7 @@
     road.appendChild(label("Daraus abgeleitet · kleine Roadmap", AMBER));
     var bands = el("div", "display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px;margin-top:14px");
     [["Quick Win", "sofort", "E-Mail-Sortierung, Dokumentenanalyse"], ["Phase 1", "nächstes Quartal", "Angebotsprozess"], ["Phase 2", "danach", "AI Support Agent"]].forEach(function (b) {
-      var c = el("div", "padding:14px 15px;border:1px solid " + HAIR + ";border-top:2px solid " + TONE[b[0]] + ";border-radius:2px;background:rgba(244,240,230,0.02)");
+      var c = el("div", "padding:14px 15px;border:1px solid " + HAIR + ";border-top:2px solid " + TONE[b[0]] + ";border-radius:2px;background:rgba(var(--hs1),0.02)");
       c.appendChild(el("span", "display:block;font-family:" + MONO + ";font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:" + TONE[b[0]] + ";margin-bottom:6px", b[0] + " · " + b[1]));
       c.appendChild(el("span", "display:block;font-size:14px;line-height:1.5;color:" + INK, b[2]));
       bands.appendChild(c);
@@ -456,7 +456,7 @@
 
     function paint() {
       Array.prototype.forEach.call(tbody.children, function (tr, i) {
-        tr.style.background = i === sel ? "rgba(227,163,59,0.09)" : "transparent";
+        tr.style.background = i === sel ? "rgba(var(--hs2),calc(0.09*var(--am)))" : "transparent";
       });
       Array.prototype.forEach.call(plot.querySelectorAll("[data-dot]"), function (d) {
         var i = parseInt(d.getAttribute("data-dot"), 10);
@@ -464,7 +464,7 @@
         var m = d.querySelector("span[style*='border-radius:50%']") || d.children[0];
         var c = d.querySelector("span[style*='white-space:nowrap']") || d.children[1];
         m.style.transform = on ? "scale(1.45)" : "scale(1)";
-        m.style.boxShadow = on ? "0 0 0 7px rgba(227,163,59,0.16)" : "0 0 0 4px rgba(227,163,59,0.08)";
+        m.style.boxShadow = on ? "0 0 0 7px rgba(var(--hs2),calc(0.16*var(--am)))" : "0 0 0 4px rgba(var(--hs2),calc(0.08*var(--am)))";
         c.style.color = on ? INK : MUTED;
       });
     }
@@ -485,7 +485,7 @@
     if (!input || !out) return;
 
     function row(k, v, color) {
-      var r = el("div", "display:grid;grid-template-columns:clamp(96px,16vw,150px) minmax(0,1fr);gap:10px 16px;align-items:baseline;padding:11px 0;border-bottom:1px solid rgba(244,240,230,0.08)");
+      var r = el("div", "display:grid;grid-template-columns:clamp(96px,16vw,150px) minmax(0,1fr);gap:10px 16px;align-items:baseline;padding:11px 0;border-bottom:1px solid rgba(var(--hs1),0.08)");
       r.appendChild(el("span", "font-family:" + MONO + ";font-size:10px;letter-spacing:0.13em;text-transform:uppercase;color:" + DIM, k));
       r.appendChild(el("span", "min-width:0;font-size:14.5px;line-height:1.5;color:" + (color || INK) + ";overflow-wrap:anywhere", v));
       return r;
@@ -495,9 +495,9 @@
       out.textContent = "";
       out.style.display = "block";
       if (!rec) {
-        out.style.borderTopColor = "#E27A5A";
+        out.style.borderTopColor = "rgb(var(--hs5))";
         var h = el("div", "display:flex;align-items:center;gap:10px;margin-bottom:10px");
-        h.appendChild(el("span", "font-size:19px;font-weight:700;letter-spacing:-0.02em;color:#E27A5A", "Kein Eintrag gefunden"));
+        h.appendChild(el("span", "font-size:19px;font-weight:700;letter-spacing:-0.02em;color:rgb(var(--hs5))", "Kein Eintrag gefunden"));
         out.appendChild(h);
         out.appendChild(el("p", "margin:0;font-size:14px;line-height:1.6;color:" + MUTED + ";text-wrap:pretty", "Zu der Kennung „" + id.trim() + "“ liegt kein Nachweis vor. Prüfen Sie die Schreibweise — die Kennung steht unten links auf dem Zertifikat und im QR-Code."));
         return;
