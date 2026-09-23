@@ -593,6 +593,33 @@
     });
   }
 
+  /* ---------- Google: als bevorzugte Quelle hinzufügen ---------- */
+  function preferredSource() {
+    var footer = document.querySelector("footer");
+    if (!footer || footer.querySelector("[data-google-preferred-source]")) return;
+
+    var mail = footer.querySelector("[data-mail]");
+    var host = mail && mail.parentElement ? mail.parentElement : footer;
+    var wrap = document.createElement("div");
+    wrap.setAttribute("data-google-preferred-source", "1");
+    wrap.style.marginTop = "16px";
+    wrap.style.minHeight = "40px";
+
+    var button = document.createElement("div");
+    button.setAttribute("google-add-preferred-source-btn", "");
+    button.setAttribute("data-theme", document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark");
+    button.setAttribute("data-lang", "de");
+    wrap.appendChild(button);
+    host.appendChild(wrap);
+
+    if (!document.querySelector('script[src="https://news.google.com/swg/js/v1/publisher.js"]')) {
+      var script = document.createElement("script");
+      script.async = true;
+      script.src = "https://news.google.com/swg/js/v1/publisher.js";
+      document.head.appendChild(script);
+    }
+  }
+
   /* ---------- Sprungmarken: gleiche Seite weich scrollen, Kopfzeile ausgleichen ---------- */
   function anchors() {
     var navEl = document.getElementById("nav");
@@ -641,6 +668,7 @@
     styleStates();
     mailLinks();
     theme();
+    preferredSource();
     nav();
     menu();
     reveal();
