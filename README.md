@@ -48,7 +48,7 @@ Stelle im hellen Design dunkel. Umrechnung und Nachziehen der hellen Palette: `t
 - Alle internen Links und Assets aufgelöst (0 Fehler)
 - Jede Seite mit `<link rel="canonical">`, Titel und Description
 - Absolute Pfade nur in `404.html` und `site.webmanifest`, sonst relativ — die Seite läuft damit auch in einem Unterordner
-- Keine externen Requests außer Web3Forms beim Absenden des Kontaktformulars
+- Externe Requests nur für Web3Forms beim Absenden des Kontaktformulars und für den offiziellen Google-Preferred-Sources-Button
 
 ## Kontaktformular
 Versand über Web3Forms (`action` im Formular). Der Access Key liegt bewusst im HTML — das ist bei Web3Forms vorgesehen. Die Empfängeradresse muss im Web3Forms-Konto bestätigt sein. Ohne JavaScript wird das Formular klassisch abgeschickt.
