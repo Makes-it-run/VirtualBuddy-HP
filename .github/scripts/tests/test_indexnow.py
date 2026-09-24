@@ -74,7 +74,7 @@ class IndexNowTests(unittest.TestCase):
     def tearDownClass(cls):
         cls.temp.cleanup()
 
-    def execute(self, *, deployment='built', deployed_sha=None, key_body=None, statuses=(200,), submit_all=True, event='workflow_dispatch', requested_url='', accepted_sha=None, artifacts_present=True, previous_deployment=None):
+    def execute(self, *, deployment='built', deployed_sha=None, key_body=None, statuses=(200,), submit_all=True, event='workflow_dispatch', requested_url='', accepted_sha=None, artifacts_present=True, previous_deployment=None, pages_completed=True):
         calls, delays = [], []
         codes = iter(statuses)
         last = statuses[-1]
@@ -90,6 +90,9 @@ class IndexNowTests(unittest.TestCase):
             if '/actions/artifacts?' in url:
                 artifacts = [{'name': 'indexnow-accepted-' + (accepted_sha or self.before), 'expired': False, 'workflow_run': {'head_branch': 'main'}}] if artifacts_present else []
                 return Response(json.dumps({'artifacts': artifacts}).encode(), url=url)
+            if '/actions/runs?' in url:
+                runs = [{'name': 'pages build and deployment', 'head_sha': self.current, 'status': 'completed' if pages_completed else 'in_progress', 'conclusion': 'success' if pages_completed else None}]
+                return Response(json.dumps({'workflow_runs': runs}).encode(), url=url)
             if url == f'{ORIGIN}/{KEY}.txt':
                 return Response(KEY.encode() if key_body is None else key_body, url=url)
             if method != 'POST' or url != 'https://api.indexnow.org/indexnow':
@@ -127,6 +130,11 @@ class IndexNowTests(unittest.TestCase):
 
     def test_different_deployed_commit_prevents_any_submission(self):
         code, calls, _, _ = self.execute(deployed_sha=self.before)
+        self.assertNotEqual(code, 0)
+        self.assertEqual(self.posts(calls), [])
+
+    def test_built_pages_with_unfinished_deployment_prevents_submission(self):
+        code, calls, _, _ = self.execute(pages_completed=False)
         self.assertNotEqual(code, 0)
         self.assertEqual(self.posts(calls), [])
 

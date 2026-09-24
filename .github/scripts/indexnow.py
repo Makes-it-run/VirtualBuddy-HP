@@ -117,10 +117,25 @@ def record_acceptance(expected, requested):
 
 
 def require_deployed(repository, expected):
-    latest = github_json(f'/repos/{repository}/pages/builds/latest')
-    if latest.get('status') != 'built' or latest.get('commit') != expected:
-        raise ValueError('The expected commit is not the latest completed Pages deployment: '
-                         f"expected {expected}, observed {latest.get('commit')} ({latest.get('status')})")
+    # page_build can arrive after compilation but before the Pages deploy job
+    # finishes. Verify that final job as well, without losing the event.
+    for attempt in range(31):
+        latest = github_json(f'/repos/{repository}/pages/builds/latest')
+        if latest.get('status') != 'built' or latest.get('commit') != expected:
+            raise ValueError('The expected commit is not the latest completed Pages build: '
+                             f"expected {expected}, observed {latest.get('commit')} ({latest.get('status')})")
+        runs = github_json(f'/repos/{repository}/actions/runs?head_sha={expected}&per_page=100')['workflow_runs']
+        pages = next((run for run in runs if run.get('name') == 'pages build and deployment'
+                      and run.get('head_sha') == expected), None)
+        if pages and pages.get('status') == 'completed':
+            if pages.get('conclusion') != 'success':
+                raise ValueError('The Pages deployment did not finish successfully')
+            return
+        if attempt == 30:
+            raise ValueError('The Pages deployment has not completed after five minutes; no URLs submitted')
+        if attempt == 0:
+            report('Pages build completed; waiting for its deployment workflow to finish.')
+        time.sleep(10)
 
 
 def verify_public_key(origin, key):
