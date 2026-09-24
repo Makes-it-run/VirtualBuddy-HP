@@ -1,11 +1,15 @@
 # virtualbuddy.ai
 
-Statische Website, 53 Seiten. Keine Build-Tools, keine Abhängigkeiten, kein CDN.
+Version: `v2026.09.24.1` (24.09.2026).
+
+Statische Website, 252 HTML-Seiten. Keine Build-Tools, keine Abhängigkeiten, kein CDN.
 
 ## Inhalt
 - `index.html` — Startseite
-- `workshops/` — Workshops & Zertifizierung (Hub + 5 Unterseiten)
-- `ki/`, `automatisierung/`, `it/`, `ecommerce/`, `marketing/`, `web/` — Content-Hubs mit Unterseiten
+- `workshops/` — Workshops & Zertifizierung, einschließlich lokaler und branchenspezifischer Angebote
+- `ki/`, `automatisierung/`, `it/`, `ecommerce/`, `marketing/`, `web/` — Content-Hubs mit Fach-, Orts- und Branchenseiten
+- `branchen/` — Branchenübersicht und 12 Branchenseiten
+- Ortsübersichten — Nordhausen, Thüringen und 11 weitere Städte/Gemeinden
 - `wissen/` — Fachbeiträge (Übersicht + 6 Artikel)
 - `ueber-uns/`, `referenzen/`, `nordhausen/`, `thueringen/`, `kontakt/` — Unternehmen
 - `certificate/` — Zertifikatsprüfung über Certificate ID (Ziel der QR-Codes, `noindex`)
@@ -14,7 +18,7 @@ Statische Website, 53 Seiten. Keine Build-Tools, keine Abhängigkeiten, kein CDN
 - `app.js` — Hero-Canvas, Hover-/Focus-Styles, Navigation, Scroll-Effekte, Kontaktformular
 - `assets/hub-*.js` — Eyecatcher je Hub (ereignisgesteuert, kein Autoplay)
 - `fonts/` — Manrope + JetBrains Mono (lokal, kein Google-CDN)
-- `sitemap.xml` — 51 URLs · `robots.txt` — Allow all + Sitemap-Verweis
+- `sitemap.xml` — 250 URLs · `robots.txt` — Allow all + Sitemap-Verweis
 - `CNAME` — Custom Domain virtualbuddy.ai
 - `.nojekyll` — verhindert Jekyll-Verarbeitung auf GitHub Pages
 
