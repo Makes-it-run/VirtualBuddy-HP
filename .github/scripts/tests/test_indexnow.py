@@ -60,6 +60,10 @@ class IndexNowTests(unittest.TestCase):
         cls.write_sitemap(['/', '/branchen/'])
         git('add', '-A')
         git('commit', '-qm', 'new site')
+        cls.content_commit = git('rev-parse', 'HEAD')
+        (cls.repo / 'README.md').write_text('Documentation-only follow-up deployment')
+        git('add', 'README.md')
+        git('commit', '-qm', 'documentation after the new site')
         cls.current = git('rev-parse', 'HEAD')
 
     @classmethod
@@ -95,7 +99,7 @@ class IndexNowTests(unittest.TestCase):
                 raise urllib.error.HTTPError(url, last, 'rejected', {}, io.BytesIO(b'{"errorCode":"UserForbiddedToAccessSite"}'))
             return Response(b'', status=last, url=url)
         event_file = self.repo / 'event.json'
-        event_file.write_text(json.dumps({'workflow_run': {'head_sha': self.current, 'head_branch': 'main', 'conclusion': 'success', 'head_repository': {'full_name': 'owner/site'}}}))
+        event_file.write_text(json.dumps({'build': {'commit': self.current, 'status': 'built'}, 'repository': {'full_name': 'owner/site'}}))
         self.ack_path = self.repo / 'ack.json'
         self.ack_path.unlink(missing_ok=True)
         env = {'GITHUB_WORKSPACE': str(self.repo), 'GITHUB_REPOSITORY': 'owner/site', 'GITHUB_TOKEN': 'test-token', 'GITHUB_SHA': self.current, 'TARGET_SHA': self.current, 'GITHUB_EVENT_NAME': event, 'GITHUB_EVENT_PATH': str(event_file), 'SUBMIT_ALL': str(submit_all).lower(), 'REQUESTED_URL': requested_url, 'GITHUB_STEP_SUMMARY': str(self.repo / 'summary.md'), 'ACK_PATH': str(self.ack_path)}
@@ -164,20 +168,20 @@ class IndexNowTests(unittest.TestCase):
         self.assertTrue(all('test-token' not in str(c) for c in public_calls))
 
     def test_automatic_submission_includes_added_and_removed_urls(self):
-        code, calls, _, _ = self.execute(submit_all=False, event='workflow_run')
+        code, calls, _, _ = self.execute(submit_all=False, event='page_build')
         self.assertEqual(code, 0)
         self.assertEqual([json.loads(c[2])['urlList'] for c in self.posts(calls)], [[ORIGIN + '/branchen/', ORIGIN + '/old/']])
 
     def test_unsubmitted_changes_survive_a_later_documentation_deployment(self):
         # The last Pages deployment already contained the new HTML, but its
         # IndexNow notification failed. Only the older acceptance is authoritative.
-        code, calls, _, _ = self.execute(submit_all=False, event='workflow_run', previous_deployment=self.current)
+        code, calls, _, _ = self.execute(submit_all=False, event='page_build', previous_deployment=self.content_commit)
         self.assertEqual(code, 0)
         self.assertEqual([json.loads(c[2])['urlList'] for c in self.posts(calls)], [[ORIGIN + '/branchen/', ORIGIN + '/old/']])
         self.assertEqual(json.loads(self.ack_path.read_text())['commit'], self.current)
 
     def test_first_automatic_run_backfills_the_current_sitemap(self):
-        code, calls, _, _ = self.execute(submit_all=False, event='workflow_run', artifacts_present=False)
+        code, calls, _, _ = self.execute(submit_all=False, event='page_build', artifacts_present=False)
         self.assertEqual(code, 0)
         self.assertEqual([json.loads(c[2])['urlList'] for c in self.posts(calls)], [[ORIGIN + '/', ORIGIN + '/branchen/']])
 

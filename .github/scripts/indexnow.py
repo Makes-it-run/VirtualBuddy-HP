@@ -95,8 +95,8 @@ def changed_urls(root, previous, current, origin, current_urls):
 
 
 def last_accepted_commit(repository):
-    # Artifact names record the actual checked-out commit. workflow_run's own
-    # head_sha can instead refer to a newer default-branch commit.
+    # Artifact names record the actual deployed commit. The event's default
+    # branch SHA can instead refer to a newer, still unpublished commit.
     page = 1
     while True:
         artifacts = github_json(f'/repos/{repository}/actions/artifacts?per_page=100&page={page}')['artifacts']
@@ -139,11 +139,11 @@ def main():
     event_name = os.environ['GITHUB_EVENT_NAME']
     if not re.fullmatch(r'[0-9a-f]{40}', expected) or git(root, 'rev-parse', 'HEAD') != expected:
         raise ValueError('The checkout does not match the expected deployment commit')
-    if event_name == 'workflow_run':
-        event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text(encoding='utf-8'))['workflow_run']
-        if (event.get('conclusion') != 'success' or event.get('head_branch') != 'main'
-                or event.get('head_sha') != expected
-                or event.get('head_repository', {}).get('full_name') != repository):
+    if event_name == 'page_build':
+        event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text(encoding='utf-8'))
+        if (event.get('build', {}).get('status') != 'built'
+                or event.get('build', {}).get('commit') != expected
+                or event.get('repository', {}).get('full_name') != repository):
             raise ValueError('Only successful Pages deployments from this repository main branch are accepted')
     elif event_name != 'workflow_dispatch':
         raise ValueError(f'Unsupported event: {event_name}')
@@ -159,7 +159,7 @@ def main():
     key_url = verify_public_key(origin, key)
     report(f'Published commit verified: {expected}. Public key file matches exactly.')
 
-    if event_name == 'workflow_run' and config.get('automatic', True) is not True:
+    if event_name == 'page_build' and config.get('automatic', True) is not True:
         raise VerificationPending('Automatic submissions paused for controlled key verification; use a manual single-URL run')
 
     current_urls = sitemap_urls((root / 'sitemap.xml').read_bytes())
@@ -172,7 +172,7 @@ def main():
         urls = {requested}
     elif submit_all:
         urls = current_urls
-    elif event_name == 'workflow_run':
+    elif event_name == 'page_build':
         previous = last_accepted_commit(repository)
         urls = changed_urls(root, previous, expected, origin, current_urls)
     else:

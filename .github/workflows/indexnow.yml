@@ -1,10 +1,7 @@
 name: IndexNow
 
 on:
-  workflow_run:
-    workflows: ["pages build and deployment"]
-    types: [completed]
-    branches: [main]
+  page_build:
   workflow_dispatch:
     inputs:
       url:
@@ -30,17 +27,17 @@ concurrency:
 jobs:
   notify-indexnow:
     if: >-
-      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
-      (github.event.workflow_run.conclusion == 'success' &&
-       github.event.workflow_run.head_branch == 'main' &&
-       github.event.workflow_run.head_repository.full_name == github.repository)
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'workflow_dispatch' ||
+       (github.event.build.status == 'built' &&
+        github.event.repository.full_name == github.repository))
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - name: Check out the deployed commit
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          ref: ${{ github.event.build.commit || github.sha }}
           fetch-depth: 0
           persist-credentials: false
       - name: Run IndexNow regression tests
@@ -48,16 +45,16 @@ jobs:
       - name: Verify deployment and notify IndexNow
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          TARGET_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+          TARGET_SHA: ${{ github.event.build.commit || github.sha }}
           REQUESTED_URL: ${{ inputs.url }}
           SUBMIT_ALL: ${{ inputs.submit_all }}
           ACK_PATH: ${{ runner.temp }}/indexnow-accepted.json
         run: python .github/scripts/indexnow.py
       - name: Record the fully accepted deployment
-        if: success() && (github.event_name == 'workflow_run' || inputs.submit_all == true)
+        if: success() && (github.event_name == 'page_build' || inputs.submit_all == true)
         uses: actions/upload-artifact@v4
         with:
-          name: indexnow-accepted-${{ github.event.workflow_run.head_sha || github.sha }}
+          name: indexnow-accepted-${{ github.event.build.commit || github.sha }}
           path: ${{ runner.temp }}/indexnow-accepted.json
           if-no-files-found: error
           retention-days: 90

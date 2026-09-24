@@ -5,7 +5,7 @@ Konfiguration: `indexnow.json` in diesem Ordner. Der Schlüssel ist ein öffentl
 ## Automatischer Ablauf
 
 1. GitHub Pages veröffentlicht `main` über den Workflow **pages build and deployment**.
-2. Erst dessen erfolgreicher Abschluss startet **IndexNow**. Das Repository und der Branch des auslösenden Laufs müssen übereinstimmen.
+2. Das native `page_build`-Ereignis startet **IndexNow** nach erfolgreichem Pages-Build. Repository und Hauptbranch müssen übereinstimmen; Commit und abgeschlossene Veröffentlichung werden zusätzlich per API geprüft.
 3. Das Skript prüft, dass Checkout und letzter erfolgreicher Pages-Build genau den erwarteten Commit verwenden. Es prüft außerdem den öffentlichen HTTPS-Schlüsselpfad ohne Weiterleitung auf HTTP 200 und bytegleichen Inhalt.
 4. Gemeldet werden geänderte HTML-Seiten und hinzugefügte/entfernte Sitemap-URLs gegenüber dem zuletzt vollständig übermittelten Stand. Dieser wird als GitHub-Actions-Artefakt `indexnow-accepted-<commit>` mit 90 Tagen Aufbewahrung gespeichert. Fehlt ein gültiger Nachweis, werden alle aktuellen Sitemap-URLs nachgemeldet; frühere gelöschte URLs lassen sich ohne diesen Nachweis nicht rekonstruieren. Reine Konfigurationsänderungen ohne URL-Änderung erzeugen keine Meldung.
 
