@@ -1,5 +1,13 @@
 # Änderungen
 
+## v2026.09.24.2 — 24.09.2026
+
+- IndexNow an den erfolgreichen Abschluss von „pages build and deployment“ gebunden. Vor jedem Versand werden der veröffentlichte Commit und der öffentliche Schlüsselinhalt geprüft.
+- HTTP 202 als ausstehende Schlüsselverifikation behandelt, mit höchstens zwei erneuten Prüfungen im Abstand von fünf Minuten. Nur HTTP 200 bestätigt die Annahme; HTTP 403 beendet den Lauf ohne unveränderte Wiederholungen.
+- Schlüsseldatei auf exakten UTF-8-Inhalt ohne Zeilenumbruch normalisiert. Schlüssel und Host werden zentral in `.github/indexnow.json` gepflegt.
+- Manuelle Einzel-URL-Prüfung und Nachmeldung aller Sitemap-URLs ergänzt; automatische Meldungen berücksichtigen hinzugefügte, geänderte und entfernte Sitemap-Seiten gegenüber dem zuletzt vollständig übermittelten Stand. Ein gespeicherter Commit-Nachweis verhindert den Verlust ausstehender Meldungen nach fehlgeschlagenen Läufen.
+- Regressionstests und Betriebsdokumentation ergänzt. Homepage-Inhalte und Sitemap gegenüber `v2026.09.24.1` unverändert.
+
 ## v2026.09.24.1 — 24.09.2026
 
 - Neue Homepage-Lieferung mit dem aktuellen Stand von `main` (`6adb554d96c778536f4714a9231ffbb902aadb7f`) abgeglichen.

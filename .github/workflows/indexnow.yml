@@ -1,161 +1,64 @@
 name: IndexNow
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "**/*.html"
-      - "sitemap.xml"
-      - "19b049e8-41d8-4ef8-8278-5a3bf442da72.txt"
-      - ".github/workflows/indexnow.yml"
+  workflow_run:
+    workflows: ["pages build and deployment"]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
     inputs:
-      submit_all:
-        description: "Submit every URL from sitemap.xml"
+      url:
+        description: "One published sitemap URL for a verification test (leave empty for submit_all)"
         required: false
-        default: true
+        default: ""
+        type: string
+      submit_all:
+        description: "Submit all URLs from the published sitemap"
+        required: false
+        default: false
         type: boolean
 
 permissions:
   contents: read
+  pages: read
+  actions: read
+
+concurrency:
+  group: indexnow-production
+  cancel-in-progress: false
 
 jobs:
   notify-indexnow:
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main' &&
+       github.event.workflow_run.head_repository.full_name == github.repository)
     runs-on: ubuntu-latest
-
+    timeout-minutes: 20
     steps:
-      - name: Check out site
+      - name: Check out the deployed commit
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
           fetch-depth: 0
-
-      - name: Submit URLs to IndexNow
+          persist-credentials: false
+      - name: Run IndexNow regression tests
+        run: python -m unittest discover -s .github/scripts/tests -v
+      - name: Verify deployment and notify IndexNow
         env:
-          SITE_HOST: virtualbuddy.ai
-          SITE_ORIGIN: https://virtualbuddy.ai
-          INDEXNOW_KEY: 19b049e8-41d8-4ef8-8278-5a3bf442da72
-          INDEXNOW_KEY_FILE: 19b049e8-41d8-4ef8-8278-5a3bf442da72.txt
-          EVENT_NAME: ${{ github.event_name }}
-          BEFORE_SHA: ${{ github.event.before }}
-          CURRENT_SHA: ${{ github.sha }}
+          GITHUB_TOKEN: ${{ github.token }}
+          TARGET_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+          REQUESTED_URL: ${{ inputs.url }}
           SUBMIT_ALL: ${{ inputs.submit_all }}
-        run: |
-          python - <<'PY'
-          import json
-          import os
-          import subprocess
-          import time
-          import urllib.error
-          import urllib.request
-          import xml.etree.ElementTree as ET
-
-          site_host = os.environ["SITE_HOST"]
-          site_origin = os.environ["SITE_ORIGIN"].rstrip("/")
-          key = os.environ["INDEXNOW_KEY"]
-          key_file = os.environ["INDEXNOW_KEY_FILE"]
-          event_name = os.environ.get("EVENT_NAME", "")
-          before = os.environ.get("BEFORE_SHA", "")
-          current = os.environ.get("CURRENT_SHA", "")
-          submit_all = os.environ.get("SUBMIT_ALL", "").lower() == "true"
-
-          def sitemap_urls(xml_text):
-              root = ET.fromstring(xml_text)
-              ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
-              return {
-                  node.text.strip()
-                  for node in root.findall(".//sm:loc", ns)
-                  if node.text and node.text.strip()
-              }
-
-          def file_to_url(path):
-              path = path.strip().lstrip("./")
-              if not path.endswith(".html") or path == "404.html":
-                  return None
-              if path == "index.html":
-                  return site_origin + "/"
-              if path.endswith("/index.html"):
-                  return site_origin + "/" + path[:-10]
-              return site_origin + "/" + path
-
-          urls = set()
-          changed_rows = []
-
-          if event_name == "push" and before and current and before != "0" * 40:
-              diff = subprocess.check_output(
-                  ["git", "diff", "--name-status", before, current],
-                  text=True,
-              )
-              changed_rows = [line.split("\t") for line in diff.splitlines() if line.strip()]
-
-          key_was_added = any(
-              row[0].startswith("A") and len(row) > 1 and row[-1] == key_file
-              for row in changed_rows
-          )
-
-          if submit_all or key_was_added:
-              with open("sitemap.xml", "r", encoding="utf-8") as f:
-                  urls |= sitemap_urls(f.read())
-          else:
-              for row in changed_rows:
-                  status = row[0]
-                  paths = row[1:]
-                  for path in paths:
-                      url = file_to_url(path)
-                      if url:
-                          urls.add(url)
-
-              if any("sitemap.xml" in row[1:] for row in changed_rows):
-                  try:
-                      old_xml = subprocess.check_output(
-                          ["git", "show", f"{before}:sitemap.xml"],
-                          text=True,
-                      )
-                      with open("sitemap.xml", "r", encoding="utf-8") as f:
-                          new_xml = f.read()
-                      urls |= sitemap_urls(old_xml) ^ sitemap_urls(new_xml)
-                  except (subprocess.CalledProcessError, FileNotFoundError):
-                      pass
-
-          urls = sorted(u for u in urls if u.startswith(site_origin + "/"))
-
-          if not urls:
-              print("No indexable URL changes detected; nothing to submit.")
-              raise SystemExit(0)
-
-          payload = json.dumps({
-              "host": site_host,
-              "key": key,
-              "keyLocation": f"{site_origin}/{key_file}",
-              "urlList": urls,
-          }).encode("utf-8")
-
-          request = urllib.request.Request(
-              "https://api.indexnow.org/indexnow",
-              data=payload,
-              headers={"Content-Type": "application/json; charset=utf-8"},
-              method="POST",
-          )
-
-          print(f"Submitting {len(urls)} URL(s) to IndexNow.")
-
-          last_error = None
-          for attempt in range(1, 7):
-              try:
-                  with urllib.request.urlopen(request, timeout=30) as response:
-                      code = response.getcode()
-                      body = response.read().decode("utf-8", errors="replace")
-                      print(f"IndexNow response: HTTP {code} {body}".strip())
-                      if code in (200, 202):
-                          raise SystemExit(0)
-              except urllib.error.HTTPError as exc:
-                  body = exc.read().decode("utf-8", errors="replace")
-                  print(f"Attempt {attempt}: HTTP {exc.code} {body}".strip())
-                  last_error = exc
-                  if exc.code not in (403, 429):
-                      raise
-              if attempt < 6:
-                  time.sleep(10)
-
-          raise SystemExit(f"IndexNow submission failed after retries: {last_error}")
-          PY
+          ACK_PATH: ${{ runner.temp }}/indexnow-accepted.json
+        run: python .github/scripts/indexnow.py
+      - name: Record the fully accepted deployment
+        if: success() && (github.event_name == 'workflow_run' || inputs.submit_all == true)
+        uses: actions/upload-artifact@v4
+        with:
+          name: indexnow-accepted-${{ github.event.workflow_run.head_sha || github.sha }}
+          path: ${{ runner.temp }}/indexnow-accepted.json
+          if-no-files-found: error
+          retention-days: 90
+          overwrite: true

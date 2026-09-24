@@ -1,6 +1,6 @@
 # virtualbuddy.ai
 
-Version: `v2026.09.24.1` (24.09.2026).
+Version: `v2026.09.24.2` (24.09.2026).
 
 Statische Website, 252 HTML-Seiten. Keine Build-Tools, keine Abhängigkeiten, kein CDN.
 
@@ -47,6 +47,8 @@ Stelle im hellen Design dunkel. Umrechnung und Nachziehen der hellen Palette: `t
    - AAAA-Records (optional, IPv6) → 2606:50c0:8000::153, 2606:50c0:8001::153, 2606:50c0:8002::153, 2606:50c0:8003::153
    - CNAME für `www` → `makes-it-run.github.io`
 5. Nach dem Livegang: `https://virtualbuddy.ai/sitemap.xml` in der Google Search Console einreichen.
+
+IndexNow startet nach erfolgreichem Pages-Deployment und prüft Commit und öffentliche Schlüsseldatei vor der Übermittlung. Einrichtung, Statusmeldungen und manuelle Nachmeldungen: [IndexNow-Betrieb](.github/INDEXNOW.md). Bei einem neuen Homepage-Import die aktuelle `.github/`-Konfiguration und zugehörige Schlüsseldatei aus diesem Repository erhalten.
 
 ## Prüfliste vor dem Push
 - Alle internen Links und Assets aufgelöst (0 Fehler)
